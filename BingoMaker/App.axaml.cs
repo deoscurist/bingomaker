@@ -51,4 +51,7 @@ public partial class App : Application
         var aboutWindow = new AboutWindow();
         aboutWindow.ShowDialog(GetMainWindow());
     }
+    // private await void GameSetup_OnClick(object? sender, EventArgs e) => router.PushAsync<GameSetupViewModel>();
+    // private await void Editor_OnClick(object? sender, EventArgs e) => Environment.Exit(0);
+    private void QuitApp_OnClick(object? sender, EventArgs e) => Environment.Exit(0);
 }
