@@ -1,0 +1,87 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels.Editor"
+             xmlns:design="using:BingoMaker.Design"
+             xmlns:controls="using:BingoMaker.Controls"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             NavigationPage.HasNavigationBar="True"
+             NavigationPage.BarLayoutBehavior="Overlay"
+             Header="{Binding Header}"
+             d:DataContext="{x:Static design:DesignData.BingoForm}"
+             x:Class="BingoMaker.Views.Editor.BingoFormView"
+             x:DataType="vm:BingoFormViewModel">
+    <ContentPage.BottomCommandBar>
+        <Border Background="LightGray" Padding="16 8">
+            <DockPanel LastChildFill="False" HorizontalAlignment="Stretch">
+                <Button
+                    IsVisible="{Binding IsExists}"
+                    DockPanel.Dock="Left"
+                    Background="IndianRed"
+                    Command="{Binding DeleteCommand}">
+                    Delete
+                </Button>
+                <Button 
+                    DockPanel.Dock="Right"
+                    Command="{Binding SaveCommand}">
+                    Save
+                </Button>
+            </DockPanel>
+        </Border>
+    </ContentPage.BottomCommandBar>
+    
+    <ScrollViewer Padding="0 56 0 24">
+        <StackPanel Orientation="Vertical" Margin="16" Spacing="16">
+            <StackPanel>
+                <Label Content="Title:" />
+                <TextBox Text="{Binding Title}" PlaceholderText="Title here" />
+            </StackPanel>
+            <StackPanel Spacing="16">
+                <DockPanel HorizontalAlignment="Stretch">
+                    <Label DockPanel.Dock="Left" VerticalAlignment="Center">
+                        Items:
+                    </Label>
+                    <Button
+                        Command="{Binding AddItemCommand}"
+                        DockPanel.Dock="Right"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right">
+                        +
+                    </Button>
+                </DockPanel>
+                <Border MaxWidth="720" BorderBrush="Black" BorderThickness="1" Padding="8">
+                    <ItemsControl IsVisible="{Binding Items.Count}" ItemsSource="{Binding Items}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <controls:BingoPanel Size="{Binding Size}" Spacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1" BorderBrush="Black">
+                                    <DockPanel Margin="8">
+                                        <Button 
+                                            Command="{Binding $parent[ItemsControl].((vm:BingoFormViewModel)DataContext).RemoveItemCommand}"
+                                            CommandParameter="{Binding}"
+                                            DockPanel.Dock="Top" 
+                                            HorizontalAlignment="Right">
+                                            -
+                                        </Button>
+                                        <StackPanel
+                                            Spacing="4" 
+                                            HorizontalAlignment="Stretch" 
+                                            VerticalAlignment="Center">
+                                            <TextBox PlaceholderText="Text here..." Text="{Binding Text}"/>
+                                            <!-- <TextBlock HorizontalAlignment="Center" Text="or"/> -->
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</ContentPage>

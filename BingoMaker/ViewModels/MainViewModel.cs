@@ -4,5 +4,5 @@ namespace BingoMaker.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    [ObservableProperty] public partial string Greeting { get; set; } = "Welcome to Avalonia!";
+    public static bool IsDesignMode => Avalonia.Controls.Design.IsDesignMode;
 }

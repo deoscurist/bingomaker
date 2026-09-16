@@ -1,0 +1,59 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels.Editor"
+             xmlns:design="using:BingoMaker.Design"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             NavigationPage.HasNavigationBar="True"
+             NavigationPage.BarLayoutBehavior="Overlay"
+             Header="Your bingos:"
+             d:DataContext="{x:Static design:DesignData.BingoList}"
+             x:Class="BingoMaker.Views.Editor.BingoListView"
+             x:DataType="vm:BingoListViewModel">
+    <ScrollViewer Padding="0 56 0 24">
+        <StackPanel Margin="16" Spacing="16">
+            <Button
+                Command="{Binding BingoFormCommand}"
+                Background="GreenYellow" 
+                HorizontalAlignment="Stretch">
+                <Button.Content>
+                    <TextBlock HorizontalAlignment="Center">
+                        Create Bingo
+                    </TextBlock>
+                </Button.Content>
+            </Button>
+            <ItemsControl ItemsSource="{Binding Bingos}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="16"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Tapped="BingoForm_OnTapped"
+                            CornerRadius="16"
+                            Padding="24"
+                            Background="LightGray"
+                        >
+                            <StackPanel>
+                                <TextBlock Height="64" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Center" Text="{Binding Title}"/>
+                                <StackPanel Spacing="8">
+                                    <TextBlock>
+                                        <Run>Created At:</Run>
+                                        <Run Text="{Binding CreatedAt}"/>
+                                    </TextBlock>
+                                    <TextBlock>
+                                        <Run>Items:</Run>
+                                        <Run>1337</Run>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</ContentPage>

@@ -1,0 +1,47 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels"
+             xmlns:design="using:BingoMaker.Design"
+             NavigationPage.HasNavigationBar="False"
+             Background="Transparent"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             d:DataContext="{x:Static design:DesignData.Startup}"
+             x:Class="BingoMaker.Views.StartupView"
+             x:DataType="vm:StartupViewModel">
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="16" Margin="0 -128 0 0">
+        <Button
+            Grid.Column="0" 
+            Command="{Binding GameSetupCommand}"
+            Background="LightGreen" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Center">
+                    Start
+                </TextBlock>
+                <Separator/>
+                <TextBlock HorizontalAlignment="Center">
+                    Choose existing bingo<LineBreak/>and mark it’s items
+                </TextBlock>
+            </StackPanel>
+        </Button>
+        <Button
+            Grid.Column="1"
+            Command="{Binding BingoListCommand}"
+            Background="LightSalmon" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center">
+            <StackPanel>
+                <TextBlock HorizontalAlignment="Center">
+                    Editor
+                </TextBlock>
+                <Separator/>
+                <TextBlock HorizontalAlignment="Center">
+                    Choose existing bingo<LineBreak/>and mark it’s items
+                </TextBlock>
+            </StackPanel>
+        </Button>
+    </Grid>
+</ContentPage>

@@ -28,4 +28,14 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Views\Game\GameSetupView.axaml.cs">
+        <DependentUpon>GameSetupView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Editor\BingoListView.axaml.cs">
+        <DependentUpon>BingoListView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
 </Project>
