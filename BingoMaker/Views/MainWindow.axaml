@@ -1,13 +1,23 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:BingoMaker.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="using:BingoMaker.ViewModels"
+        xmlns:views="using:BingoMaker.Views"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
         x:Class="BingoMaker.Views.MainWindow"
         x:DataType="vm:MainViewModel"
+        MinWidth="768"
+        MinHeight="1024"
+        Width="768"
+        Height="1024"
         Icon="/Assets/avalonia-logo.ico"
-        Title="BingoMaker">
+        Background="LightCoral"
+        Title="BingoMaker"
+        CanResize="True"
+        ShowInTaskbar="True"
+        ExtendClientAreaToDecorationsHint="True"
+        TransparencyLevelHint="AcrylicBlur">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -15,4 +25,20 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
+    <DockPanel>
+        <!-- Header -->
+        <Border
+            DockPanel.Dock="Top"
+            Padding="16">
+            <StackPanel>
+                <Image Source="/Assets/logo.png" Width="256" />
+            </StackPanel>
+        </Border>
+        <!-- Content -->
+        <NavigationPage x:Name="NavigationRoot" BarHeight="48">
+            <NavigationPage.PageTransition>
+                <PageSlide Duration="0:00:00.250" Orientation="Horizontal" />
+            </NavigationPage.PageTransition>
+        </NavigationPage>
+    </DockPanel>
 </Window>
