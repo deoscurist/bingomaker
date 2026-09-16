@@ -1,0 +1,83 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:windows="using:BingoMaker.Views.Windows"
+        mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="320"
+        x:Class="BingoMaker.Views.Windows.AboutWindow"
+        Title="About Bingo Maker"
+        SizeToContent="WidthAndHeight"
+        CanResize="False"
+        ShowInTaskbar="False"
+        ExtendClientAreaToDecorationsHint="True"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="LightGray"
+        WindowStartupLocation="CenterOwner">
+    
+    <Window.Styles>
+        <Style Selector="HyperlinkButton.inline">                                                                                                                                                                        
+            <Setter Property="Padding" Value="0" />                                                                                                                                                                      
+            <Setter Property="MinHeight" Value="0" />                                                                                                                                                                    
+            <Setter Property="Background" Value="Transparent" />                                                                                                                                                         
+            <Setter Property="BorderThickness" Value="0" />                                                                                                                                                              
+        </Style>   
+        
+        <Style Selector="HyperlinkButton.inline:pointerover /template/ ContentPresenter">                                                                                                                                
+            <Setter Property="Background" Value="Transparent" />                                                                                                                                                         
+        </Style>    
+    </Window.Styles>
+    
+    <StackPanel Margin="24" Spacing="16" HorizontalAlignment="Stretch">
+        <Image Source="/Assets/logo.png" Width="256"/>
+        <GroupBox Header="Application Info">
+            <StackPanel Orientation="Vertical">
+                <Label>
+                    <Label.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Stretch">
+                            <TextBlock HorizontalAlignment="Left">Author:</TextBlock>
+                            <TextBlock 
+                                Foreground="DimGray"
+                                HorizontalAlignment="Right">
+                                @deoscurist 
+                                &lt;<InlineUIContainer BaselineAlignment="Baseline">                                                                                                                                                                 
+                                    <HyperlinkButton Classes="inline" Margin="4 0 4 -4" Padding="0" NavigateUri="mailto:deoscurist@gmail.com"                                                                                                                                  
+                                                     Content="deoscurist@gmail.com" />                                                                                                                                                           
+                                </InlineUIContainer>&gt;
+                            </TextBlock>
+                        </StackPanel>
+                    </Label.Content>
+                </Label>
+                <Label>
+                    <Label.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Stretch">
+                            <TextBlock HorizontalAlignment="Left">Version:</TextBlock>
+                            <TextBlock 
+                                Foreground="DimGray"
+                                HorizontalAlignment="Right"
+                                Text="{Binding $parent[windows:AboutWindow].Version}"/>
+                        </StackPanel>
+                    </Label.Content>
+                </Label>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="Socials">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+                <HyperlinkButton
+                    NavigateUri="https://dev.to/deoscurist"
+                    Classes="inline">
+                    <PathIcon Foreground="Black" Data="{StaticResource DevTo}" Width="32" Height="32"/>
+                </HyperlinkButton>
+                <HyperlinkButton
+                    NavigateUri="https://github.com/deoscurist"
+                    Classes="inline">
+                    <PathIcon Foreground="#FF232925" Data="{StaticResource Github}" Width="32" Height="32"/>
+                </HyperlinkButton>
+                <HyperlinkButton
+                    NavigateUri="https://x.com/deoscurist"
+                    Classes="inline">
+                    <PathIcon Foreground="Black" Data="{StaticResource Xcom}" Width="32" Height="32"/>
+                </HyperlinkButton>
+            </StackPanel>
+        </GroupBox>
+    </StackPanel>
+</Window>

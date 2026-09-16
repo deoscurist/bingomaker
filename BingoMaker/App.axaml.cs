@@ -1,10 +1,12 @@
 using System;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using BingoMaker.Routing;
 using BingoMaker.ViewModels;
 using BingoMaker.Views;
+using BingoMaker.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BingoMaker;
@@ -40,5 +42,13 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private Window GetMainWindow() => (ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow!;
+    
+    private void AppAbout_OnClick(object? sender, EventArgs e)
+    {
+        var aboutWindow = new AboutWindow();
+        aboutWindow.ShowDialog(GetMainWindow());
     }
 }
