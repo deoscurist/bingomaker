@@ -4,6 +4,7 @@ using BingoMaker.Design.Routing;
 using BingoMaker.Models;
 using BingoMaker.ViewModels;
 using BingoMaker.ViewModels.Editor;
+using BingoMaker.ViewModels.Game;
 
 namespace BingoMaker.Design;
 
@@ -104,6 +105,8 @@ internal static class DesignData
     public static DesignRouter DesignRouter { get; } = new();
     
     public static StartupViewModel Startup { get; } = new(DesignRouter);
+    public static GameSetupViewModel GameSetup { get; } = new(DesignRouter);
+    public static GameViewModel Game { get; } = new(DesignRouter, Bingos[0]);
     public static BingoListViewModel BingoList { get; } = new(DesignRouter)
     {
         Bingos = new ObservableCollection<Bingo>(Bingos)

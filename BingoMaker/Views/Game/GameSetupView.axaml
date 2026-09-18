@@ -3,17 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BingoMaker.ViewModels.Game"
+             xmlns:design="using:BingoMaker.Design"
              NavigationPage.HasNavigationBar="True"
              NavigationPage.BarLayoutBehavior="Overlay"
              Header="Choose bingo:"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             d:DataContext="{x:Static design:DesignData.GameSetup}"
              x:DataType="vm:GameSetupViewModel"
              x:Class="BingoMaker.Views.Game.GameSetupView">
-    
-    <Design.DataContext>
-        <vm:GameSetupViewModel/>
-    </Design.DataContext>
-    
     <ScrollViewer Padding="0 56 0 24">
         <StackPanel Margin="16">
             <ItemsControl ItemsSource="{Binding Bingos}">
@@ -25,6 +22,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border
+                            Tapped="StartGame_OnTapped"
                             CornerRadius="16"
                             Padding="24"
                             Background="LightGray"

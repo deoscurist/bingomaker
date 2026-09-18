@@ -1,0 +1,84 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels.Game"
+             xmlns:controls="using:BingoMaker.Controls"
+             xmlns:design="using:BingoMaker.Design"
+             xmlns:converters="using:Avalonia.Data.Converters"
+             NavigationPage.HasBackButton="False"
+             NavigationPage.HasNavigationBar="False"
+             Header="GAME"
+             d:DataContext="{x:Static design:DesignData.Game}"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             x:DataType="vm:GameViewModel"
+             x:Class="BingoMaker.Views.Game.GameView">
+    <Border Padding="16">
+        <StackPanel Spacing="16">
+            <Border DockPanel.Dock="Top" Background="LightGray" Padding="8">
+                <Grid 
+                    ColumnDefinitions="*,Auto,*"
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Top">
+                    <Button 
+                        Command="{Binding StopGameCommand}"
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Left" 
+                        Background="Red" 
+                        Content="Stop"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Text="Bingo Name"/>
+                    <TextBlock
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Text="{Binding GameTime, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
+                </Grid>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" Padding="8">
+                <ScrollViewer>
+                    <ItemsControl IsVisible="{Binding Items.Count}" ItemsSource="{Binding Items}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <controls:BingoPanel Size="{Binding Size}" Spacing="8" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border 
+                                    Tapped="MarkItem_OnTapped" 
+                                    BorderThickness="1" 
+                                    Background="Transparent"
+                                    BorderBrush="Black">
+                                    <DockPanel Margin="8">
+                                        <Grid>
+                                            <TextBlock
+                                                Margin="8"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Model.BingoItem.Text}" />
+
+                                            <Path
+                                                Margin="4"
+                                                Data="M 0,0 L 100,100 M 100,0 L 0,100"
+                                                Stretch="Fill"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Stroke="Red"
+                                                StrokeThickness="3"
+                                                IsHitTestVisible="False"
+                                                IsVisible="{Binding IsMarked}" />
+                                        </Grid>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Border>
+        </StackPanel>
+    </Border>
+</ContentPage>

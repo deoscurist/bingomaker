@@ -1,10 +1,12 @@
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using BingoMaker.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
+using BingoMaker.Routing;
+using CommunityToolkit.Mvvm.Input;
 
 namespace BingoMaker.ViewModels.Game;
 
-public partial class GameSetupViewModel : ViewModelBase
+public partial class GameSetupViewModel(INavigationRouter router) : ViewModelBase
 {
     public ObservableCollection<Bingo> Bingos { get; } =
     [
@@ -90,4 +92,7 @@ public partial class GameSetupViewModel : ViewModelBase
             ]
         },
     ];
+    
+    [RelayCommand]
+    public Task StartGame(Bingo bingo) => router.PushAsync<GameViewModel>(bingo);
 }
