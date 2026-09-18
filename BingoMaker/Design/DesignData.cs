@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using BingoMaker.Design.Routing;
 using BingoMaker.Models;
@@ -8,15 +9,8 @@ namespace BingoMaker.Design;
 
 internal static class DesignData
 {
-    public static DesignRouter DesignRouter { get; } = new();
-    
-    public static StartupViewModel Startup { get; } = new(DesignRouter);
-
-    public static BingoListViewModel BingoList { get; } = new(DesignRouter)
-    {
-        Bingos = new ObservableCollection<Bingo>()
-        {
-            new Bingo
+    public static List<Bingo> Bingos { get; } = [
+        new Bingo
             {
                 Title = "Test Bingo",
                 Items =
@@ -106,19 +100,13 @@ internal static class DesignData
                     new BingoItem { Text = "lol 3" },
                 ]
             }
-        }
-    };
+    ];
+    public static DesignRouter DesignRouter { get; } = new();
     
-    public static BingoFormViewModel BingoForm { get; } = new(new Bingo()
+    public static StartupViewModel Startup { get; } = new(DesignRouter);
+    public static BingoListViewModel BingoList { get; } = new(DesignRouter)
     {
-        Title = "Test Bingo",
-        Items =
-        [
-            new BingoItem() { Text = "Test"},
-            new BingoItem() { Text = "Test 2"},
-            new BingoItem() { Text = "Test 3"},
-            new BingoItem() { Text = "Test 4"},
-            new BingoItem() { Text = "Test 5"},
-        ]
-    });
+        Bingos = new ObservableCollection<Bingo>(Bingos)
+    };
+    public static BingoFormViewModel BingoForm { get; } = new(DesignRouter, Bingos[0]);
 }

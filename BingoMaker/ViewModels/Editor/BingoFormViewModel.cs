@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using BingoMaker.Models;
+using BingoMaker.Routing;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -9,8 +10,21 @@ namespace BingoMaker.ViewModels.Editor;
 
 public partial class BingoFormViewModel : ViewModelBase
 {
-    public BingoFormViewModel(Bingo? bingo = null)
+    private INavigationRouter _router;
+    private Bingo _bingo { get; set; }
+
+    public bool IsExists { get; } = false;
+
+    public string Header => String.IsNullOrEmpty(_bingo.Title) ? "New Bingo" : $"Edit \"{_bingo.Title}\"";
+
+    [ObservableProperty] public partial string Title { get; set; }
+    [ObservableProperty] public partial double Size { get; set; }
+    public ObservableCollection<BingoItem> Items { get; }
+    
+    public BingoFormViewModel(INavigationRouter router, Bingo? bingo = null)
     {
+        _router = router;
+        
         IsExists = bingo is not null;
         _bingo = bingo ?? new Bingo();
 
@@ -32,16 +46,6 @@ public partial class BingoFormViewModel : ViewModelBase
         AddItemCommand.NotifyCanExecuteChanged();
         RemoveItemCommand.NotifyCanExecuteChanged();
     }
-    
-    private Bingo _bingo { get; set; }
-
-    public bool IsExists { get; } = false;
-
-    public string Header => String.IsNullOrEmpty(_bingo.Title) ? "New Bingo" : $"Edit \"{_bingo.Title}\"";
-
-    [ObservableProperty] public partial string Title { get; set; }
-    [ObservableProperty] public partial double Size { get; set; }
-    public ObservableCollection<BingoItem> Items { get; }
 
     public bool CanAddItem => Items.Count < 25;
 
@@ -68,12 +72,13 @@ public partial class BingoFormViewModel : ViewModelBase
     [RelayCommand]
     public void Save()
     {
-        return;
+        _router.PushAsync<BingoListViewModel>();
     }
     
     [RelayCommand]
-    public void Delete()
+    public async void Delete()
     {
-        return;
+        await _router.PushAsync<BingoListViewModel>();
+        _router.ClearHistory(2);
     }
 }
