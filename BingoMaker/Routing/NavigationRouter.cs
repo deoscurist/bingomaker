@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using BingoMaker.ViewModels;
@@ -30,4 +31,24 @@ public sealed class NavigationRouter(
     }
 
     public Task PopAsync() => host.Root.PopAsync();
+    public void ClearHistory(int? count = null)
+    {
+        if (count is < 0)
+            throw new ArgumentOutOfRangeException(nameof(count));
+        
+        var navigation = host.Root;
+
+        if (navigation.IsNavigating)
+            throw new InvalidOperationException("Waiting for transition");
+
+        var pages = navigation.NavigationStack.ToArray();
+
+        var historyCount = Math.Max(0, pages.Length - 1);
+        var removeCount = Math.Min(count ?? historyCount, historyCount);
+
+        for (var i = 0; i < removeCount; i++)
+        {
+            navigation.RemovePage(pages[pages.Length - 2 - i]);
+        }
+    }
 }

@@ -14,4 +14,8 @@ internal sealed class DesignRouter : INavigationRouter
     public Task PushAsync<TViewModel>(params object[] args) where TViewModel : ViewModelBase => Task.CompletedTask;
 
     public Task PopAsync() => Task.CompletedTask;
+    public void ClearHistory(int? count = null)
+    {
+        return;
+    }
 }
