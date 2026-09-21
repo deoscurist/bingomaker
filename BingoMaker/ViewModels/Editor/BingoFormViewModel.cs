@@ -1,8 +1,12 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using BingoMaker.Models;
 using BingoMaker.Routing;
+using BingoMaker.Stores;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -10,74 +14,126 @@ namespace BingoMaker.ViewModels.Editor;
 
 public partial class BingoFormViewModel : ViewModelBase
 {
-    private INavigationRouter _router;
-    private Bingo _bingo { get; set; }
+    private readonly INavigationRouter _router;
+    private readonly IBingoStore _bingoStore;
+    private Bingo _bingo { get;}
 
-    public bool IsExists { get; } = false;
+    public bool IsExists { get; }
 
     public string Header => String.IsNullOrEmpty(_bingo.Title) ? "New Bingo" : $"Edit \"{_bingo.Title}\"";
 
-    [ObservableProperty] public partial string Title { get; set; }
-    [ObservableProperty] public partial double Size { get; set; }
-    public ObservableCollection<BingoItem> Items { get; }
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(SaveCommand))] 
+    public partial string Title { get; set; }
     
-    public BingoFormViewModel(INavigationRouter router, Bingo? bingo = null)
+    [ObservableProperty] public partial double Size { get; set; }
+    public ObservableCollection<BingoItemViewModel> Items { get; }
+    
+    public BingoFormViewModel(
+        INavigationRouter router, IBingoStore bingoStore, Bingo? bingo = null)
     {
         _router = router;
+        _bingoStore = bingoStore;
         
         IsExists = bingo is not null;
         _bingo = bingo ?? new Bingo();
-
-        Size = Math.Max(2, (int)Math.Ceiling(Math.Sqrt(_bingo.Items.Count)));
         
         Title = _bingo.Title;
-        Items = new ObservableCollection<BingoItem>(_bingo.Items);
+        Items = new ObservableCollection<BingoItemViewModel>(
+            _bingo.Items.Select(item => new BingoItemViewModel(item)));
 
         if (Items.Count == 0)
-        {
-            Items.Add(new BingoItem());
-        }
+            Items.Add(new BingoItemViewModel());
         
-        Items.CollectionChanged += OnItemsCollectionChanged;
+        foreach (var item in Items)
+            item.PropertyChanged += OnItemPropertyChanged;
+        
+        Size = Math.Max(2, (int)Math.Ceiling(Math.Sqrt(Items.Count)));
     }
     
-    private void OnItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    private void OnItemPropertyChanged(
+        object? sender,
+        PropertyChangedEventArgs e)
     {
-        AddItemCommand.NotifyCanExecuteChanged();
-        RemoveItemCommand.NotifyCanExecuteChanged();
+        if (e.PropertyName == nameof(BingoItemViewModel.Text))
+            SaveCommand.NotifyCanExecuteChanged();
     }
 
     public bool CanAddItem => Items.Count < 25;
 
-    public bool CanDeleteItem => Items.Count > 1;
-
     [RelayCommand(CanExecute = nameof(CanAddItem))]
     public void AddItem()
     {
-        Items.Add(new BingoItem());
+        var item = new BingoItemViewModel();
+        item.PropertyChanged += OnItemPropertyChanged;
+        Items.Add(item);
         
         Size = Math.Max(2, (int)Math.Ceiling(Math.Sqrt(Items.Count)));
+        
+        AddItemCommand.NotifyCanExecuteChanged();
         RemoveItemCommand.NotifyCanExecuteChanged();
+        SaveCommand.NotifyCanExecuteChanged();
     }
+    
+    public bool CanDeleteItem => Items.Count > 1;
     
     [RelayCommand(CanExecute = nameof(CanDeleteItem))]
-    public void RemoveItem(BingoItem item)
+    public void RemoveItem(BingoItemViewModel item)
     {
-        Items.Remove(item);
+        if (!Items.Remove(item))
+            return;
+        
+        item.PropertyChanged -= OnItemPropertyChanged;
         
         Size = Math.Max(2, (int)Math.Ceiling(Math.Sqrt(Items.Count)));
+        
         AddItemCommand.NotifyCanExecuteChanged();
+        RemoveItemCommand.NotifyCanExecuteChanged();
+        SaveCommand.NotifyCanExecuteChanged();
     }
+    
+    public bool CanSave => !String.IsNullOrWhiteSpace(Title) 
+                           && Items.Count >= 1
+                           && Items.All(i => !String.IsNullOrWhiteSpace(i.Text));
 
-    [RelayCommand]
-    public void Save()
+    [RelayCommand(CanExecute = nameof(CanSave))]
+    public async Task Save()
     {
-        _router.PushAsync<BingoListViewModel>();
+        var previousTitle = _bingo.Title;
+        var previousItems = _bingo.Items;
+        
+        try
+        {
+            _bingo.Title = Title;
+            _bingo.Items = new ObservableCollection<BingoItem>(Items.Select(i => i.ToModel())); 
+            await _bingoStore.SaveAsync(_bingo);
+        }
+        catch (Exception exception)
+        {
+            _bingo.Title = previousTitle;
+            _bingo.Items = previousItems;
+            
+            Console.WriteLine(exception);
+            return;
+        }
+        
+        await _router.PushAsync<BingoListViewModel>();
+        _router.ClearHistory(2);
     }
     
     [RelayCommand]
-    public async void Delete()
+    public async Task Delete()
     {
+        try
+        {
+            await _bingoStore.DeleteAsync(_bingo);
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception);
+            throw;
+        }
+        
         await _router.PushAsync<BingoListViewModel>();
         _router.ClearHistory(2);
     }

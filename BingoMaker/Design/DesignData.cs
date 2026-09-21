@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using BingoMaker.Design.Routing;
+using BingoMaker.Design.Stores;
 using BingoMaker.Models;
 using BingoMaker.ViewModels;
 using BingoMaker.ViewModels.Editor;
@@ -103,13 +103,11 @@ internal static class DesignData
             }
     ];
     public static DesignRouter DesignRouter { get; } = new();
+    public static DesignBingoStore BingoStore { get; } = new(Bingos);
     
     public static StartupViewModel Startup { get; } = new(DesignRouter);
     public static GameSetupViewModel GameSetup { get; } = new(DesignRouter);
     public static GameViewModel Game { get; } = new(DesignRouter, Bingos[0]);
-    public static BingoListViewModel BingoList { get; } = new(DesignRouter)
-    {
-        Bingos = new ObservableCollection<Bingo>(Bingos)
-    };
-    public static BingoFormViewModel BingoForm { get; } = new(DesignRouter, Bingos[0]);
+    public static BingoListViewModel BingoList { get; } = new(DesignRouter, BingoStore);
+    public static BingoFormViewModel BingoForm { get; } = new(DesignRouter, BingoStore, Bingos[0]);
 }

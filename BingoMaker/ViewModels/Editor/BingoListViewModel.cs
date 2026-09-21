@@ -2,99 +2,28 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using BingoMaker.Models;
 using BingoMaker.Routing;
+using BingoMaker.Stores;
 using CommunityToolkit.Mvvm.Input;
 
 namespace BingoMaker.ViewModels.Editor;
 
-public partial class BingoListViewModel(INavigationRouter router) : ViewModelBase
+public partial class BingoListViewModel : ViewModelBase
 {
-    public ObservableCollection<Bingo> Bingos { get; init; } =
-    [
-        new Bingo 
-        {
-            Title = "Test Bingo",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-        new Bingo 
-        {
-            Title = "Test Bingo 2",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-        new Bingo 
-        {
-            Title = "Test Bingo 3",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-        new Bingo 
-        {
-            Title = "Test Bingo 4",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-        new Bingo 
-        {
-            Title = "Test Bingo 5",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-        new Bingo 
-        {
-            Title = "Test Bingo 6",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-        new Bingo 
-        {
-            Title = "Test Bingo 7",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-        new Bingo 
-        {
-            Title = "Test Bingo 8",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-        new Bingo 
-        {
-            Title = "Test Bingo 9",
-            Items = [
-                new BingoItem { Text = "lol"},
-                new BingoItem { Text = "lol 2"},
-                new BingoItem { Text = "lol 3"},
-            ]
-        },
-    ];
+    private readonly INavigationRouter _router; 
+    private readonly IBingoStore _bingoStore;
+    
+    public ReadOnlyObservableCollection<Bingo> Bingos
+        => _bingoStore.Bingos;
+
+    public BingoListViewModel(INavigationRouter router, IBingoStore bingoStore)
+    {
+        _router = router;
+        _bingoStore = bingoStore;
+        _bingoStore.LoadAsync();
+    }
 
     [RelayCommand]
     public Task BingoForm(Bingo? bingo) => bingo is null
-        ? router.PushAsync<BingoFormViewModel>()
-        : router.PushAsync<BingoFormViewModel>(bingo);
+        ? _router.PushAsync<BingoFormViewModel>()
+        : _router.PushAsync<BingoFormViewModel>(bingo);
 }

@@ -23,7 +23,9 @@
                     </TextBlock>
                 </Button.Content>
             </Button>
-            <ItemsControl ItemsSource="{Binding Bingos}">
+            <ItemsControl 
+                IsVisible="{Binding Bingos}" 
+                ItemsSource="{Binding Bingos}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Spacing="16"/>
@@ -46,7 +48,7 @@
                                     </TextBlock>
                                     <TextBlock>
                                         <Run>Items:</Run>
-                                        <Run>1337</Run>
+                                        <Run Text="{Binding Items.Count}"/>
                                     </TextBlock>
                                 </StackPanel>
                             </StackPanel>
@@ -54,6 +56,9 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <TextBlock
+                Text="No items"
+                IsVisible="{Binding !Bingos.Count}"/>
         </StackPanel>
     </ScrollViewer>
 </ContentPage>
