@@ -3,17 +3,19 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using BingoMaker.Data;
 using BingoMaker.Routing;
 using BingoMaker.ViewModels;
 using BingoMaker.Views;
 using BingoMaker.Views.Windows;
+using LiteDB;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace BingoMaker;
 
 public partial class App : Application
 {
-    public static IServiceProvider Services { get; private set; } = null!;
+    public static ServiceProvider Services { get; private set; } = null!;
     
     public override void Initialize()
     {
@@ -26,19 +28,34 @@ public partial class App : Application
         {
             var services = new ServiceCollection();
 
+            services.AddDBConnection();
+
             services.AddSingleton<NavigationHost>();
             services.AddSingleton<INavigationHost>(sp => sp.GetRequiredService<NavigationHost>());
             services.AddSingleton<ViewLocator>();
             services.AddSingleton<INavigationRouter, NavigationRouter>();
-            
+
             Services = services.BuildServiceProvider();
             
-            var window = new MainWindow() { DataContext = new MainViewModel() };
+            try
+            {
+                
+                var window = new MainWindow() { DataContext = new MainViewModel() };
+                
+                _ = Services.GetRequiredService<ILiteDatabase>(); 
+                
+                Services.GetRequiredService<NavigationHost>().Attach(window.Navigation);
+                Services.GetRequiredService<INavigationRouter>().SetRoot<StartupViewModel>();
+                
+                desktop.MainWindow = window;
+            }
+            catch
+            {
+                Services.Dispose();
+                throw;
+            }
             
-            Services.GetRequiredService<NavigationHost>().Attach(window.Navigation);
-            Services.GetRequiredService<INavigationRouter>().SetRoot<StartupViewModel>();
-            
-            desktop.MainWindow = window;
+            desktop.Exit += (_, _) => Services.Dispose();
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -53,5 +70,9 @@ public partial class App : Application
     }
     // private await void GameSetup_OnClick(object? sender, EventArgs e) => router.PushAsync<GameSetupViewModel>();
     // private await void Editor_OnClick(object? sender, EventArgs e) => Environment.Exit(0);
-    private void QuitApp_OnClick(object? sender, EventArgs e) => Environment.Exit(0);
+    private void QuitApp_OnClick(object? sender, EventArgs e)
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            desktop.Shutdown();
+    }
 }
