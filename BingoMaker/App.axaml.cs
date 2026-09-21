@@ -5,6 +5,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using BingoMaker.Data;
 using BingoMaker.Routing;
+using BingoMaker.Stores;
 using BingoMaker.ViewModels;
 using BingoMaker.Views;
 using BingoMaker.Views.Windows;
@@ -30,6 +31,8 @@ public partial class App : Application
 
             services.AddDBConnection();
 
+            services.AddSingleton<IBingoStore, BingoStore>();
+            
             services.AddSingleton<NavigationHost>();
             services.AddSingleton<INavigationHost>(sp => sp.GetRequiredService<NavigationHost>());
             services.AddSingleton<ViewLocator>();
