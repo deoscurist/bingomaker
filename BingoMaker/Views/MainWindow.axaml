@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:BingoMaker.ViewModels"
         xmlns:views="using:BingoMaker.Views"
-        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
         x:Class="BingoMaker.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         MinWidth="768"
