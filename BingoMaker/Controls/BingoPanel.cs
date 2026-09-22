@@ -1,7 +1,6 @@
 using System;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media;
 
 namespace BingoMaker.Controls;
 
@@ -15,25 +14,17 @@ public class BingoPanel : Panel
     public int Size { get => GetValue(SizeProperty); set => SetValue(SizeProperty, value); }
     public int Spacing { get => GetValue(SpacingProperty); set => SetValue(SpacingProperty, value); }
     
+    private double TotalSpacing => Spacing * (Size - 1);
+    
     static BingoPanel()
     {
         AffectsMeasure<BingoPanel>(SizeProperty, SpacingProperty);
-    }
-
-    private double CalculateItemSize(Size area)
-    {
-        var constraint = Math.Min(area.Width, area.Height);
-        
-        var itemSide = constraint / Size;
-
-        return itemSide;
     }
     
     protected override Size MeasureOverride(Size availableSize)
     {
         var itemSide = 0.0;
-        var totalSpacing = Spacing * (Size - 1);
-        var constraint = Math.Min(availableSize.Width, availableSize.Height) - totalSpacing;
+        var constraint = Math.Min(availableSize.Width, availableSize.Height) - TotalSpacing;
 
         if (double.IsInfinity(constraint))
         {
@@ -51,14 +42,13 @@ public class BingoPanel : Panel
         }
         
         return new Size(
-            itemSide * Size + totalSpacing,
-            itemSide * Size + totalSpacing);
+            itemSide * Size + TotalSpacing,
+            itemSide * Size + TotalSpacing);
     }
     
     protected override Size ArrangeOverride(Size finalSize) {
         var side = Math.Min(finalSize.Width, finalSize.Height);
-        var totalSpacing = Spacing * (Size - 1);
-        var itemSide = (side - totalSpacing) / Size;
+        var itemSide = (side - TotalSpacing) / Size;
 
         var i = 0;
         var z = 0;
