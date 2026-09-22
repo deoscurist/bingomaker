@@ -6,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using BingoMaker.Controls;
 using BingoMaker.Data;
 using BingoMaker.Routing;
+using BingoMaker.Services;
 using BingoMaker.Stores;
 using BingoMaker.ViewModels;
 using BingoMaker.Views;
@@ -43,6 +44,9 @@ public partial class App : Application
             services.AddSingleton<INavigationHost>(sp => sp.GetRequiredService<NavigationHost>());
             services.AddSingleton<ViewLocator>();
             services.AddSingleton<INavigationRouter, NavigationRouter>();
+            
+            services.AddSingleton<IDialogService>(sp => 
+                new DialogService((ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow!));
 
             Services = services.BuildServiceProvider();
             

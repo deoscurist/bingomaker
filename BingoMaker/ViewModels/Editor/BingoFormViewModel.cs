@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BingoMaker.Models;
 using BingoMaker.Routing;
+using BingoMaker.Services;
 using BingoMaker.Stores;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,6 +16,7 @@ public partial class BingoFormViewModel : ViewModelBase
 {
     private readonly INavigationRouter _router;
     private readonly IBingoStore _bingoStore;
+    private readonly IDialogService _dialogService;
     private Bingo _bingo { get;}
 
     public bool IsExists { get; }
@@ -29,10 +31,14 @@ public partial class BingoFormViewModel : ViewModelBase
     public ObservableCollection<BingoItemViewModel> Items { get; }
     
     public BingoFormViewModel(
-        INavigationRouter router, IBingoStore bingoStore, Bingo? bingo = null)
+        INavigationRouter router, 
+        IBingoStore bingoStore, 
+        IDialogService dialogService,
+        Bingo? bingo = null)
     {
         _router = router;
         _bingoStore = bingoStore;
+        _dialogService = dialogService;
         
         IsExists = bingo is not null;
         _bingo = bingo ?? new Bingo();
@@ -125,7 +131,8 @@ public partial class BingoFormViewModel : ViewModelBase
     {
         try
         {
-            await _bingoStore.DeleteAsync(_bingo);
+            if (await _dialogService.ShowConfirmAsync("Are you sure you want to delete this bingo?"))
+                await _bingoStore.DeleteAsync(_bingo);
         }
         catch (Exception exception)
         {
