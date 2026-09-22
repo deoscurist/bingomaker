@@ -21,6 +21,9 @@ public partial class BingoListViewModel : ViewModelBase
         _bingoStore = bingoStore;
         _bingoStore.LoadAsync();
     }
+    
+    [RelayCommand]
+    public async Task Delete(Bingo bingo) => await _bingoStore.DeleteAsync(bingo);
 
     [RelayCommand]
     public Task BingoForm(Bingo? bingo) => bingo is null

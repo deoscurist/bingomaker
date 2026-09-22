@@ -8,6 +8,7 @@
              NavigationPage.HasNavigationBar="True"
              NavigationPage.BarLayoutBehavior="Overlay"
              Header="Your bingos:"
+             x:Name="BingoList"
              d:DataContext="{x:Static design:DesignData.BingoList}"
              x:Class="BingoMaker.Views.Editor.BingoListView"
              x:DataType="vm:BingoListViewModel">
@@ -41,16 +42,25 @@
                         >
                             <StackPanel>
                                 <TextBlock Height="64" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Center" Text="{Binding Title}"/>
-                                <StackPanel Spacing="8">
-                                    <TextBlock>
-                                        <Run>Created At:</Run>
-                                        <Run Text="{Binding CreatedAt}"/>
-                                    </TextBlock>
-                                    <TextBlock>
-                                        <Run>Items:</Run>
-                                        <Run Text="{Binding Items.Count}"/>
-                                    </TextBlock>
-                                </StackPanel>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Grid.Column="0" Spacing="8">
+                                        <TextBlock>
+                                            <Run>Created At:</Run>
+                                            <Run Text="{Binding CreatedAt}"/>
+                                        </TextBlock>
+                                        <TextBlock>
+                                            <Run>Items:</Run>
+                                            <Run Text="{Binding Items.Count}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
+                                        <Button
+                                            Command="{Binding #BingoList.((vm:BingoListViewModel)DataContext).DeleteCommand}"
+                                            CommandParameter="{Binding}"
+                                            Background="Red" 
+                                            Content="Delete"/>
+                                    </StackPanel>
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
