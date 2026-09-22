@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using BingoMaker.Controls;
 using BingoMaker.Data;
 using BingoMaker.Routing;
 using BingoMaker.Stores;
@@ -16,6 +17,8 @@ namespace BingoMaker;
 
 public partial class App : Application
 {
+    private AppTray? _appTray;
+    
     public static ServiceProvider Services { get; private set; } = null!;
     
     public override void Initialize()
@@ -34,6 +37,8 @@ public partial class App : Application
             services.AddSingleton<IBingoStore, BingoStore>();
             services.AddSingleton<IGameStore, GameStore>();
             
+            services.AddSingleton<TrayViewModel>();
+            
             services.AddSingleton<NavigationHost>();
             services.AddSingleton<INavigationHost>(sp => sp.GetRequiredService<NavigationHost>());
             services.AddSingleton<ViewLocator>();
@@ -41,9 +46,11 @@ public partial class App : Application
 
             Services = services.BuildServiceProvider();
             
+            var trayVm = Services.GetRequiredService<TrayViewModel>();
+            _appTray = new AppTray(this, trayVm);
+            
             try
             {
-                
                 var window = new MainWindow() { DataContext = new MainViewModel() };
                 
                 _ = Services.GetRequiredService<ILiteDatabase>(); 
@@ -55,11 +62,16 @@ public partial class App : Application
             }
             catch
             {
+                _appTray.Dispose();
                 Services.Dispose();
                 throw;
             }
             
-            desktop.Exit += (_, _) => Services.Dispose();
+            desktop.Exit += (_, _) =>
+            {
+                _appTray.Dispose();
+                Services.Dispose();
+            };
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -71,12 +83,5 @@ public partial class App : Application
     {
         var aboutWindow = new AboutWindow();
         aboutWindow.ShowDialog(GetMainWindow());
-    }
-    // private await void GameSetup_OnClick(object? sender, EventArgs e) => router.PushAsync<GameSetupViewModel>();
-    // private await void Editor_OnClick(object? sender, EventArgs e) => Environment.Exit(0);
-    private void QuitApp_OnClick(object? sender, EventArgs e)
-    {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-            desktop.Shutdown();
     }
 }

@@ -5,30 +5,7 @@
              Name="Bingo Maker"
              RequestedThemeVariant="Light">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-    
-    <TrayIcon.Icons>
-        <TrayIcons>
-            <TrayIcon Icon="/Assets/bingo-logo.ico"
-                      ToolTipText="Bingo Maker">
-                <TrayIcon.Menu>
-                    <NativeMenu>
-                        <NativeMenuItem Header="Current bingo">
-                            <NativeMenu>
-                                <NativeMenuItem Header="Stop"/>
-                            </NativeMenu>
-                        </NativeMenuItem>
-                        <!-- <NativeMenuItemSeparator/> -->
-                        <!-- <NativeMenuItem Header="Go to game setup" Click="GameSetup_OnClick"/> -->
-                        <!-- <NativeMenuItem Header="Go to editor" Click="Editor_OnClick"/> -->
-                        <NativeMenuItemSeparator/>
-                        <NativeMenuItem Header="About" Click="AppAbout_OnClick"/>
-                        <NativeMenuItem Header="Quit" Click="QuitApp_OnClick"/>
-                    </NativeMenu>
-                </TrayIcon.Menu>
-            </TrayIcon>
-        </TrayIcons>
-    </TrayIcon.Icons>
-    
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -40,7 +17,7 @@
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
-    
+
     <NativeMenu.Menu>
         <NativeMenu>
             <NativeMenuItem Header="About" Click="AppAbout_OnClick" />
