@@ -132,7 +132,11 @@ public partial class BingoFormViewModel : ViewModelBase
         try
         {
             if (await _dialogService.ShowConfirmAsync("Are you sure you want to delete this bingo?"))
+            {
                 await _bingoStore.DeleteAsync(_bingo);
+                await _router.PushAsync<BingoListViewModel>();
+                _router.ClearHistory(2);
+            }
         }
         catch (Exception exception)
         {
@@ -140,7 +144,5 @@ public partial class BingoFormViewModel : ViewModelBase
             throw;
         }
         
-        await _router.PushAsync<BingoListViewModel>();
-        _router.ClearHistory(2);
     }
 }
