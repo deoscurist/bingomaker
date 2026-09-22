@@ -4,30 +4,22 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BingoMaker.ViewModels.Game;
 
-public class GameItemViewModel : ObservableObject
+public partial class GameItemViewModel : ObservableObject
 {
     public GameItem Model { get; }
+    
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsMarked))]
+    public partial DateTime? MarkedAt { get; set; }
+    
+    public bool IsMarked => MarkedAt.HasValue;
 
     public GameItemViewModel(GameItem model)
     {
         Model = model;
+
+        MarkedAt = model.MarkedAt;
     }
-
-    public DateTime? MarkedAt
-    {
-        get => Model.MarkedAt;
-        set
-        {
-            if (Model.MarkedAt == value)
-                return;
-
-            Model.MarkedAt = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(IsMarked));
-        }
-    }
-
-    public bool IsMarked => MarkedAt.HasValue;
 
     public void ToggleMark()
     {

@@ -29,6 +29,7 @@ public static class DBConnection
         });
         
         services.AddSingleton<IBingoRepository, BingoRepository>();
+        services.AddSingleton<IGameRepository, GameRepository>();
         
         return services;
     }

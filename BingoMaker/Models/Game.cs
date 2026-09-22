@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace BingoMaker.Models;
 
@@ -10,5 +10,5 @@ public class Game
     public DateTime StartedAt { get; set; } = DateTime.Now;
     public DateTime? FinishedAt { get; set; }
     
-    public List<GameItem> Items { get; set; } = [];
+    public ObservableCollection<GameItem> Items { get; set; } = [];
 }

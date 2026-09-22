@@ -1,9 +1,11 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using Avalonia.Threading;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 using BingoMaker.Models;
 using BingoMaker.Routing;
+using BingoMaker.Stores;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -12,61 +14,68 @@ namespace BingoMaker.ViewModels.Game;
 public partial class GameViewModel : ViewModelBase
 {
     private INavigationRouter _router;
-    private readonly Bingo _bingo;
-    private readonly Stopwatch _stopwatch = new();
-    private readonly DispatcherTimer _timer;
-
+    private IGameStore _gameStore;
+    
+    public Bingo Bingo { get; }
     public int Size { get; }
-    [ObservableProperty] public partial TimeSpan GameTime { get; set; } = TimeSpan.Zero;
+    [ObservableProperty] public partial TimeSpan GameTime { get; set; }
 
     public ObservableCollection<GameItemViewModel> Items { get; } = [];
     
-    public GameViewModel(INavigationRouter router, Bingo bingo)
+    public GameViewModel(INavigationRouter router, IGameStore gameStore, Bingo bingo)
     {
         _router = router;
-        _bingo = bingo;
+        _gameStore = gameStore;
+        Bingo = bingo;
         
-        Size = Math.Max(2, (int)Math.Ceiling(Math.Sqrt(_bingo.Items.Count)));
+        Size = Math.Max(2, (int)Math.Ceiling(Math.Sqrt(Bingo.Items.Count)));
 
-        foreach (var item in _bingo.Items)
+        _gameStore.PropertyChanged += OnGameStorePropertyChanged;
+        _gameStore.ItemMarkChanged += OnStoreItemMarkChanged;
+
+        _gameStore.StartGame(bingo);
+        
+        if (_gameStore.CurrentGame?.Items != null)
+            foreach (var item in _gameStore.CurrentGame.Items)
+            {
+                var itemVm = new GameItemViewModel(item);
+                Items.Add(itemVm);
+            }
+    }
+    
+    private void OnGameStorePropertyChanged(object? sender, PropertyChangedEventArgs args)
+    {
+        if (args.PropertyName == nameof(IGameStore.GameTime))
+            GameTime = _gameStore.GameTime;
+    }
+    
+    private void OnStoreItemMarkChanged(GameItem updatedModel)
+    {
+        var targetVm = Items.FirstOrDefault(vm => vm.Model == updatedModel);
+        
+        if (targetVm == null) return;
+        
+        if (targetVm.MarkedAt != updatedModel.MarkedAt)
         {
-            Items.Add(new GameItemViewModel(
-                new GameItem { BingoItem = item }));
+            targetVm.MarkedAt = updatedModel.MarkedAt;
         }
-        
-        _timer = new DispatcherTimer
-        {
-            Interval = TimeSpan.FromMilliseconds(100)
-        };
-
-        _timer.Tick += (_, _) => GameTime = _stopwatch.Elapsed;
-
-        StartTimer();
-    }
-    
-    public void StartTimer()
-    {
-        _stopwatch.Start();
-        _timer.Start();
-    }
-    
-    public void StopTimer()
-    {
-        _timer.Stop();
-        _stopwatch.Stop();
-        GameTime = _stopwatch.Elapsed;
     }
 
     [RelayCommand]
     public void MarkItem(GameItemViewModel item)
     {
         item.ToggleMark();
+        _gameStore.MarkItem(item.Model);
     }
 
     [RelayCommand]
-    public async void StopGame()
+    public async Task StopGame()
     {
-        StopTimer();
+        _gameStore.PropertyChanged -= OnGameStorePropertyChanged;
+        _gameStore.ItemMarkChanged -= OnStoreItemMarkChanged;
+        
+        _gameStore.FinishGame();
+        
         await _router.PushAsync<StartupViewModel>();
         _router.ClearHistory();
     }

@@ -32,6 +32,7 @@ public partial class App : Application
             services.AddDBConnection();
 
             services.AddSingleton<IBingoStore, BingoStore>();
+            services.AddSingleton<IGameStore, GameStore>();
             
             services.AddSingleton<NavigationHost>();
             services.AddSingleton<INavigationHost>(sp => sp.GetRequiredService<NavigationHost>());

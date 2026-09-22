@@ -5,7 +5,6 @@
              xmlns:vm="using:BingoMaker.ViewModels.Game"
              xmlns:controls="using:BingoMaker.Controls"
              xmlns:design="using:BingoMaker.Design"
-             xmlns:converters="using:Avalonia.Data.Converters"
              NavigationPage.HasBackButton="False"
              NavigationPage.HasNavigationBar="False"
              Header="GAME"
@@ -30,7 +29,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
-                        Text="Bingo Name"/>
+                        Text="{Binding Bingo.Title}"/>
                     <TextBlock
                         Grid.Column="2"
                         HorizontalAlignment="Right"

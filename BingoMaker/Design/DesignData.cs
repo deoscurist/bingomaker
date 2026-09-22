@@ -104,10 +104,11 @@ internal static class DesignData
     ];
     public static DesignRouter DesignRouter { get; } = new();
     public static DesignBingoStore BingoStore { get; } = new(Bingos);
+    public static DesignGameStore GameStore { get; } = new();
     
     public static StartupViewModel Startup { get; } = new(DesignRouter);
-    public static GameSetupViewModel GameSetup { get; } = new(DesignRouter);
-    public static GameViewModel Game { get; } = new(DesignRouter, Bingos[0]);
+    public static GameSetupViewModel GameSetup { get; } = new(DesignRouter, BingoStore);
+    public static GameViewModel Game { get; } = new(DesignRouter, GameStore, Bingos[0]);
     public static BingoListViewModel BingoList { get; } = new(DesignRouter, BingoStore);
     public static BingoFormViewModel BingoForm { get; } = new(DesignRouter, BingoStore, Bingos[0]);
 }
