@@ -13,7 +13,11 @@ public partial class GameSetupView : ContentPage
 
     private void StartGame_OnTapped(object? sender, TappedEventArgs e)
     {
-        if (sender is Control control && DataContext is GameSetupViewModel viewModel)
-            viewModel.StartGameCommand.Execute(control.DataContext);
+        if (
+            sender is Control control 
+            && DataContext is GameSetupViewModel viewModel
+            && control.DataContext is BingoGameStat item)
+            
+            viewModel.StartGameCommand.Execute(item.Bingo);
     }
 }

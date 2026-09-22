@@ -28,15 +28,15 @@
                             Background="LightGray"
                             >
                             <StackPanel>
-                                <TextBlock Height="64" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Center" Text="{Binding Title}"/>
+                                <TextBlock Height="64" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Center" Text="{Binding Bingo.Title}"/>
                                 <StackPanel Spacing="8">
                                     <TextBlock>
                                         <Run>Last played:</Run>
-                                        <Run Text="{Binding CreatedAt}"/>
+                                        <Run Text="{Binding  LatestFinishedAt}"/>
                                     </TextBlock>
                                     <TextBlock>
                                         <Run>Total games:</Run>
-                                        <Run>1337</Run>
+                                        <Run Text="{Binding TotalCount}"/>
                                     </TextBlock>
                                 </StackPanel>
                             </StackPanel>
