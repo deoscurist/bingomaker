@@ -3,7 +3,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using BingoMaker.Data.Repositories;
+using BingoMaker.Messages;
 using BingoMaker.Models;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BingoMaker.Stores;
 
@@ -38,7 +40,11 @@ public class BingoStore : IBingoStore
         catch (Exception exception)
         {
             Console.WriteLine(exception);
-            throw;
+            
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(Title: "Something goes wrong...", Message:exception.Message, Type: NotificationType.Error));
+
+            return;
         }
         
         _isLoaded = true;
@@ -63,11 +69,17 @@ public class BingoStore : IBingoStore
                 _bingos[index] = bingo;
             }
             
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(Title: "Bingo has been saved", Type: NotificationType.Success));
         }
         catch (Exception exception)
         {
             Console.WriteLine(exception);
-            throw;
+            
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(Title: "Something goes wrong...", Message:exception.Message, Type: NotificationType.Error));
+
+            return false;
         }
         
         return true;
@@ -86,11 +98,18 @@ public class BingoStore : IBingoStore
             {
                 _bingos.Remove(foundBingo);
             }
+            
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(Title: "Bingo has been deleted", Type: NotificationType.Success));
         }
         catch (Exception exception)
         {
             Console.WriteLine(exception);
-            throw;
+            
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(Title: "Something goes wrong...", Message:exception.Message, Type: NotificationType.Error));
+            
+            return false;
         }
         
         return true;
