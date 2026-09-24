@@ -65,16 +65,14 @@ public partial class GameViewModel : ViewModelBase
             GameTime = _gameStore.GameTime;
     }
     
-    private void OnStoreItemMarkChanged(GameItem updatedModel)
+    private void OnStoreItemMarkChanged(GameItem markedItem)
     {
-        var targetVm = Items.FirstOrDefault(vm => vm.Model == updatedModel);
+        var itemVm = Items.FirstOrDefault(vm => vm.Model == markedItem);
         
-        if (targetVm == null) return;
+        if (itemVm == null) return;
         
-        if (targetVm.MarkedAt != updatedModel.MarkedAt)
-        {
-            targetVm.MarkedAt = updatedModel.MarkedAt;
-        }
+        if (itemVm.MarkedAt != markedItem.MarkedAt)
+            itemVm.ToggleMark();
     }
 
     [RelayCommand]
@@ -83,7 +81,6 @@ public partial class GameViewModel : ViewModelBase
         try
         {
             await _gameStore.MarkItem(item.Model);
-            item.ToggleMark();
         }
         catch (Exception e)
         {
