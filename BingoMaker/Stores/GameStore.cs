@@ -118,6 +118,12 @@ public partial class GameStore : ObservableObject, IGameStore
             _repository.Save(CurrentGame!);
             
             CurrentGame = null;
+            
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(
+                    Title: "Your results have been saved", 
+                    Message: "You can find them in bingo stats", 
+                    Type: NotificationType.Info));
         }
         catch (Exception exception)
         {
