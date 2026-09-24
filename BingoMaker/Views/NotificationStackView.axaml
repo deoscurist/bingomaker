@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels"
+             xmlns:views="using:BingoMaker.Views"
+             xmlns:design="using:BingoMaker.Design"
+             x:DataType="vm:NotificationStackViewModel"
+             d:DataContext="{x:Static design:DesignData.NotificationStack}"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             x:Class="BingoMaker.Views.NotificationStackView">
+    <ScrollViewer
+        Background="{x:Null}"
+        x:Name="NotificationStackScroll">
+        <ItemsControl
+            x:Name="NotificationItems"
+            ItemsSource="{Binding Notifications}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="vm:NotificationViewModel">
+                    <views:NotificationView Padding="8"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+</UserControl>

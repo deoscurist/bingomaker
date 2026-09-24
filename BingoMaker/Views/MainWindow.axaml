@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:BingoMaker.ViewModels"
+        xmlns:views="using:BingoMaker.Views"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
         x:Class="BingoMaker.Views.MainWindow"
         x:DataType="vm:MainViewModel"
@@ -24,20 +25,35 @@
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <DockPanel>
-        <!-- Header -->
-        <Border
-            DockPanel.Dock="Top"
-            Padding="16">
-            <StackPanel>
-                <Image Source="/Assets/logo.png" Width="256" />
-            </StackPanel>
-        </Border>
-        <!-- Content -->
-        <NavigationPage x:Name="NavigationRoot" BarHeight="48">
-            <NavigationPage.PageTransition>
-                <PageSlide Duration="0:00:00.250" Orientation="Horizontal" />
-            </NavigationPage.PageTransition>
-        </NavigationPage>
-    </DockPanel>
+    <Grid>
+        <!-- Notifications -->
+        <views:NotificationStackView
+            FadeHeight="24"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Background="{x:Null}"
+            HorizontalAlignment="Right"
+            Padding="16"
+            Width="320"
+            ZIndex="1"
+            DataContext="{Binding Notifications}"
+            />
+        <DockPanel>
+            <!-- Header -->
+            <Border
+                DockPanel.Dock="Top"
+                Padding="16">
+                <StackPanel>
+                    <Image Source="/Assets/logo.png" Width="256" />
+                </StackPanel>
+            </Border>
+            <!-- Content -->
+            <NavigationPage x:Name="NavigationRoot" BarHeight="48">
+                <NavigationPage.PageTransition>
+                    <PageSlide Duration="0:00:00.250" Orientation="Horizontal" />
+                </NavigationPage.PageTransition>
+            </NavigationPage>
+        </DockPanel>
+    </Grid>
 </Window>
