@@ -3,8 +3,10 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Avalonia.Threading;
 using BingoMaker.Data.Repositories;
+using BingoMaker.Messages;
 using BingoMaker.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace BingoMaker.Stores;
 
@@ -37,30 +39,65 @@ public partial class GameStore : ObservableObject, IGameStore
     
     public async Task<bool> StartGame(Bingo bingo)
     {
-        GameTime = TimeSpan.Zero;
-        _stopwatch.Restart();
-        _timer.Start();
-        
-        var game = new Game { BingoId = bingo.Id };
+        try
+        {
+            GameTime = TimeSpan.Zero;
+            _stopwatch.Restart();
+            _timer.Start();
+            
+            var game = new Game { BingoId = bingo.Id };
 
-        foreach (var item in bingo.Items)
-            game.Items.Add(new GameItem { BingoItem = item });
+            foreach (var item in bingo.Items)
+                game.Items.Add(new GameItem { BingoItem = item });
 
-        _repository.Save(game);
+            _repository.Save(game);
 
-        CurrentGame = game;
-        CurrentBingo = bingo;
+            CurrentGame = game;
+            CurrentBingo = bingo;
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception);
+            
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(
+                    Title: "Cannot start a game", 
+                    Message: exception.Message, 
+                    Type: NotificationType.Error));
+            
+            CurrentGame = null;
+            CurrentBingo = null;
+            
+            throw;
+        }
         
         return true;
     }
 
     public async Task<bool> MarkItem(GameItem item)
     {
-        item.MarkedAt = item.MarkedAt == null ? DateTime.Now : null;
-        
-        _repository.Save(CurrentGame!);
-        
-        ItemMarkChanged?.Invoke(item);
+        var previousMarkedAt = item.MarkedAt;
+
+        try
+        {
+            item.MarkedAt = item.MarkedAt == null ? DateTime.Now : null;
+            _repository.Save(CurrentGame!);
+            ItemMarkChanged?.Invoke(item);
+        }
+        catch (Exception exception)
+        {
+            item.MarkedAt = previousMarkedAt;
+            
+            Console.WriteLine(exception);
+            
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(
+                    Title: "Cannot mark an item", 
+                    Message: exception.Message, 
+                    Type: NotificationType.Error));
+            
+            throw;
+        }
 
         return true;
     }
@@ -70,15 +107,33 @@ public partial class GameStore : ObservableObject, IGameStore
         if (CurrentGame == null)
             return false;
 
-        _stopwatch.Stop();
-        _timer.Stop();
-        GameTime = _stopwatch.Elapsed;
-        
-        CurrentGame!.FinishedAt = DateTime.Now;
-        
-        _repository.Save(CurrentGame!);
-        
-        CurrentGame = null;
+        try
+        {
+            _stopwatch.Stop();
+            _timer.Stop();
+            GameTime = _stopwatch.Elapsed;
+            
+            CurrentGame!.FinishedAt = DateTime.Now;
+            
+            _repository.Save(CurrentGame!);
+            
+            CurrentGame = null;
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception);
+            
+            WeakReferenceMessenger.Default.Send(
+                new NotificationMessage(
+                    Title: "Cannot finish game", 
+                    Message: exception.Message, 
+                    Type: NotificationType.Error));
+            
+            _stopwatch.Start();
+            _timer.Start();
+            
+            throw;
+        }
 
         return true;
     }

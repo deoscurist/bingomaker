@@ -85,15 +85,28 @@ public partial class TrayViewModel : ViewModelBase
     [RelayCommand]
     public async Task FinishGame()
     {
-        _gameStore.FinishGame();
-        
-        await _router.PushAsync<StartupViewModel>();
-        _router.ClearHistory();
+        try
+        {
+            await _gameStore.FinishGame();
+            await _router.PushAsync<StartupViewModel>();
+            _router.ClearHistory();
+        }
+        catch (Exception e)
+        {
+            return;
+        }
     }
     
     [RelayCommand]
     public async Task MarkItem(GameItem item)
     {
-        await _gameStore.MarkItem(item);
+        try
+        {
+            await _gameStore.MarkItem(item);
+        }
+        catch (Exception e)
+        {
+            return;
+        }
     }
 }

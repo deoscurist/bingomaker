@@ -12,8 +12,8 @@ namespace BingoMaker.Stores;
 
 public partial class BingoStore : ObservableObject, IBingoStore
 {
-    private IBingoRepository _repository;
-    private ObservableCollection<Bingo> _bingos;
+    private readonly IBingoRepository _repository;
+    private readonly ObservableCollection<Bingo> _bingos;
     public ReadOnlyObservableCollection<Bingo> Bingos { get; }
     
     [ObservableProperty]
@@ -44,7 +44,7 @@ public partial class BingoStore : ObservableObject, IBingoStore
             Console.WriteLine(exception);
             
             WeakReferenceMessenger.Default.Send(
-                new NotificationMessage(Title: "Something goes wrong...", Message:exception.Message, Type: NotificationType.Error));
+                new NotificationMessage(Title: "Something goes wrong...", Message: exception.Message, Type: NotificationType.Error));
 
             throw;
         }

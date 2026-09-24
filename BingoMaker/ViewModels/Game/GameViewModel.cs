@@ -33,14 +33,30 @@ public partial class GameViewModel : ViewModelBase
         _gameStore.PropertyChanged += OnGameStorePropertyChanged;
         _gameStore.ItemMarkChanged += OnStoreItemMarkChanged;
 
-        _gameStore.StartGame(bingo);
-        
-        if (_gameStore.CurrentGame?.Items != null)
-            foreach (var item in _gameStore.CurrentGame.Items)
-            {
-                var itemVm = new GameItemViewModel(item);
-                Items.Add(itemVm);
-            }
+        _ = StartGame();
+    }
+
+    private async Task StartGame()
+    {
+        try
+        {
+            await _gameStore.StartGame(Bingo);
+            
+            if (_gameStore.CurrentGame?.Items != null)
+                foreach (var item in _gameStore.CurrentGame.Items)
+                {
+                    var itemVm = new GameItemViewModel(item);
+                    Items.Add(itemVm);
+                }
+        }
+        catch (Exception e)
+        {
+            _gameStore.PropertyChanged -= OnGameStorePropertyChanged;
+            _gameStore.ItemMarkChanged -= OnStoreItemMarkChanged;
+            
+            await _router.PushAsync<GameSetupViewModel>();
+            _router.ClearHistory(1);
+        }
     }
     
     private void OnGameStorePropertyChanged(object? sender, PropertyChangedEventArgs args)
@@ -62,21 +78,38 @@ public partial class GameViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void MarkItem(GameItemViewModel item)
+    public async Task MarkItem(GameItemViewModel item)
     {
-        item.ToggleMark();
-        _gameStore.MarkItem(item.Model);
+        try
+        {
+            await _gameStore.MarkItem(item.Model);
+            item.ToggleMark();
+        }
+        catch (Exception e)
+        {
+            return;
+        }
     }
 
     [RelayCommand]
     public async Task StopGame()
     {
-        _gameStore.PropertyChanged -= OnGameStorePropertyChanged;
-        _gameStore.ItemMarkChanged -= OnStoreItemMarkChanged;
-        
-        _gameStore.FinishGame();
-        
-        await _router.PushAsync<StartupViewModel>();
-        _router.ClearHistory();
+        try
+        {
+            _gameStore.PropertyChanged -= OnGameStorePropertyChanged;
+            _gameStore.ItemMarkChanged -= OnStoreItemMarkChanged;
+            
+            await _gameStore.FinishGame();
+            
+            await _router.PushAsync<StartupViewModel>();
+            _router.ClearHistory();
+        }
+        catch (Exception e)
+        {
+            _gameStore.PropertyChanged += OnGameStorePropertyChanged;
+            _gameStore.ItemMarkChanged += OnStoreItemMarkChanged;
+            
+            return;
+        }
     }
 }
