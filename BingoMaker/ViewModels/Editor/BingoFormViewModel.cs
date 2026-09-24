@@ -118,7 +118,6 @@ public partial class BingoFormViewModel : ViewModelBase
             _bingo.Title = previousTitle;
             _bingo.Items = previousItems;
             
-            Console.WriteLine(exception);
             return;
         }
         
@@ -140,9 +139,7 @@ public partial class BingoFormViewModel : ViewModelBase
         }
         catch (Exception exception)
         {
-            Console.WriteLine(exception);
-            throw;
+            return;
         }
-        
     }
 }

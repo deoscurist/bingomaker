@@ -1,11 +1,14 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using BingoMaker.Models;
 
 namespace BingoMaker.Stores;
 
-public interface IBingoStore
+public interface IBingoStore : INotifyPropertyChanged
 {
+    bool IsLoaded { get; }
+    
     ReadOnlyObservableCollection<Bingo> Bingos { get; }
 
     Task LoadAsync();

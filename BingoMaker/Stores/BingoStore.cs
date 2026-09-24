@@ -5,17 +5,19 @@ using System.Threading.Tasks;
 using BingoMaker.Data.Repositories;
 using BingoMaker.Messages;
 using BingoMaker.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace BingoMaker.Stores;
 
-public class BingoStore : IBingoStore
+public partial class BingoStore : ObservableObject, IBingoStore
 {
     private IBingoRepository _repository;
     private ObservableCollection<Bingo> _bingos;
     public ReadOnlyObservableCollection<Bingo> Bingos { get; }
     
-    private bool _isLoaded;
+    [ObservableProperty]
+    public partial bool IsLoaded { get; private set; }
 
     public BingoStore(IBingoRepository repository)
     {
@@ -26,7 +28,7 @@ public class BingoStore : IBingoStore
     
     public async Task LoadAsync()
     {
-        if (_isLoaded)
+        if (IsLoaded)
             return;
         
         try
@@ -44,10 +46,10 @@ public class BingoStore : IBingoStore
             WeakReferenceMessenger.Default.Send(
                 new NotificationMessage(Title: "Something goes wrong...", Message:exception.Message, Type: NotificationType.Error));
 
-            return;
+            throw;
         }
         
-        _isLoaded = true;
+        IsLoaded = true;
     }
 
     public async Task<bool> SaveAsync(Bingo bingo)
@@ -79,7 +81,7 @@ public class BingoStore : IBingoStore
             WeakReferenceMessenger.Default.Send(
                 new NotificationMessage(Title: "Something goes wrong...", Message:exception.Message, Type: NotificationType.Error));
 
-            return false;
+            throw;
         }
         
         return true;
@@ -108,8 +110,8 @@ public class BingoStore : IBingoStore
             
             WeakReferenceMessenger.Default.Send(
                 new NotificationMessage(Title: "Something goes wrong...", Message:exception.Message, Type: NotificationType.Error));
-            
-            return false;
+
+            throw;
         }
         
         return true;

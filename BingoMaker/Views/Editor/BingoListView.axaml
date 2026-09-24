@@ -25,7 +25,7 @@
                 </Button.Content>
             </Button>
             <ItemsControl 
-                IsVisible="{Binding Bingos}" 
+                IsVisible="{Binding !!Bingos.Count}" 
                 ItemsSource="{Binding Bingos}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -66,9 +66,29 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <TextBlock
-                Text="No items"
-                IsVisible="{Binding !Bingos.Count}"/>
+            <Border
+                MinWidth="256"
+                HorizontalAlignment="Center"
+                Background="LightGray"
+                BorderBrush="#66000000"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="8"
+                IsVisible="{Binding !Bingos.Count}">
+                <StackPanel
+                    Spacing="8"
+                    Orientation="Vertical">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Text="No items"
+                        IsVisible="{Binding !Bingos.Count}"/>
+                    <Button
+                        HorizontalAlignment="Center"
+                        Command="{Binding LoadBingosCommand}" 
+                        Content="Reload"
+                        IsVisible="{Binding !IsLoaded}"/>
+                </StackPanel>
+            </Border>
         </StackPanel>
     </ScrollViewer>
 </ContentPage>
