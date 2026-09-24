@@ -8,4 +8,4 @@ public enum NotificationType
     Error,
 }
 
-public record Notification(string Title, string Message, NotificationType Type = NotificationType.Info);
+public record Notification(string Title, string? Message = null, NotificationType Type = NotificationType.Info);

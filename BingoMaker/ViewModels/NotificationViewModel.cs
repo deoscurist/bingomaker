@@ -7,12 +7,15 @@ namespace BingoMaker.ViewModels;
 public partial class NotificationViewModel : ViewModelBase
 {
     public string Title { get; set; }
-    public string Message { get; set; }
+    public string? Message { get; set; }
     public NotificationType Type { get; set; }
+    
     public bool IsInfo => Type == NotificationType.Info;
     public bool IsWarning => Type == NotificationType.Warning;
     public bool IsSuccess => Type == NotificationType.Success;
     public bool IsError => Type == NotificationType.Error;
+    
+    public bool HasMessage => !string.IsNullOrEmpty(Message);
     
     public double? Duration { get; }
     public event Action<NotificationViewModel>? Closed;

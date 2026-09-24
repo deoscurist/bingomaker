@@ -59,7 +59,8 @@
                         TextWrapping="Wrap" 
                         FontSize="16"
                         Text="{Binding Title}" />
-                    <TextBlock 
+                    <TextBlock
+                        IsVisible="{Binding HasMessage}"
                         TextWrapping="Wrap" 
                         FontSize="12"
                         Text="{Binding Message}" />

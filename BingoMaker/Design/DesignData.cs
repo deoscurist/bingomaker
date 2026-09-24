@@ -22,6 +22,7 @@ internal static class DesignData
         new Notification("Error Notification", "Some message here", NotificationType.Error),
         new Notification("Success Notification", "Some message here", NotificationType.Success),
         new Notification("Warning Notification", "Some message here", NotificationType.Warning),
+        new Notification("Notification without message", Type: NotificationType.Info),
     ];
     
     public static List<Game> Games { get; } =
