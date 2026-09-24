@@ -57,7 +57,7 @@
                                         <Button
                                             Command="{Binding #BingoList.((vm:BingoListViewModel)DataContext).DeleteCommand}"
                                             CommandParameter="{Binding}"
-                                            Background="Red" 
+                                            Background="IndianRed"
                                             Content="Delete"/>
                                     </StackPanel>
                                 </Grid>
