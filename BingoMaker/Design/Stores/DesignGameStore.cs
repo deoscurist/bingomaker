@@ -3,12 +3,12 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using BingoMaker.Models;
 using BingoMaker.Stores;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BingoMaker.Design.Stores;
 
-public class DesignGameStore : IGameStore
+public class DesignGameStore : ObservableObject, IGameStore
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
     public Bingo CurrentBingo { get; }
     public Game? CurrentGame { get; }
     public TimeSpan GameTime { get; }
