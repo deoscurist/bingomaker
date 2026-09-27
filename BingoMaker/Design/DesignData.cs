@@ -183,7 +183,7 @@ internal static class DesignData
     public static NotificationViewModel Notification { get; } = new(Notifications[0], null);
     
     public static StartupViewModel Startup { get; } = new(DesignRouter);
-    public static GameSetupViewModel GameSetup { get; } = new(DesignRouter, BingoRepository, GameRepository);
+    public static GameSetupViewModel GameSetup { get; } = new(DesignRouter, BingoRepository, GameRepository, DesignDialog);
     public static GameViewModel Game { get; } = new(DesignRouter, GameStore, Bingos[0]);
     public static BingoListViewModel BingoList { get; } = new(DesignRouter, BingoStore, DesignDialog);
     public static BingoFormViewModel BingoForm { get; } = new(DesignRouter, BingoStore, DesignDialog, Bingos[0]);

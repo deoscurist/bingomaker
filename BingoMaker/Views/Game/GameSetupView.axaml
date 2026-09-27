@@ -3,7 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BingoMaker.ViewModels.Game"
+             xmlns:views="using:BingoMaker.Views.Game"
              xmlns:design="using:BingoMaker.Design"
+             xmlns:templates="using:BingoMaker.Views.Templates"
              NavigationPage.HasNavigationBar="True"
              NavigationPage.BarLayoutBehavior="Overlay"
              Header="Choose bingo:"
@@ -11,7 +13,12 @@
              d:DataContext="{x:Static design:DesignData.GameSetup}"
              x:DataType="vm:GameSetupViewModel"
              x:Class="BingoMaker.Views.Game.GameSetupView">
-    <ScrollViewer Padding="0 56 0 24">
+    <ContentPage.Resources>
+        <StaticResource x:Key="FrutigerBarColor" ResourceKey="NotificationSuccess"/>
+        <Color x:Key="FrutigerBarTextColor">White</Color>
+    </ContentPage.Resources>
+    
+    <ScrollViewer>
         <StackPanel Margin="16">
             <ItemsControl ItemsSource="{Binding Bingos}">
                 <ItemsControl.ItemsPanel>
@@ -21,15 +28,9 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border
-                            Tapped="StartGame_OnTapped"
-                            CornerRadius="16"
-                            Padding="24"
-                            Background="LightGray"
-                            >
-                            <StackPanel>
-                                <TextBlock Height="64" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Center" Text="{Binding Bingo.Title}"/>
-                                <StackPanel Spacing="8">
+                        <templates:ListCard Title="{Binding Bingo.Title}">
+                            <templates:ListCard.Content>
+                                <StackPanel Grid.Column="0" Spacing="8">
                                     <TextBlock>
                                         <Run>Last played:</Run>
                                         <Run Text="{Binding  LatestFinishedAt}"/>
@@ -39,8 +40,35 @@
                                         <Run Text="{Binding TotalCount}"/>
                                     </TextBlock>
                                 </StackPanel>
-                            </StackPanel>
-                        </Border>
+                            </templates:ListCard.Content>
+                            <templates:ListCard.Actions>
+                                <StackPanel Spacing="8" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                    <Button
+                                        CornerRadius="8"
+                                        Padding="8"
+                                        Command="{Binding $parent[views:GameSetupView].((vm:GameSetupViewModel)DataContext).StartGameCommand}"
+                                        CommandParameter="{Binding Bingo}"
+                                        Background="{DynamicResource BrandGreen}">
+                                        <PathIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="16"
+                                            Height="16"
+                                            Foreground="#FF333333"
+                                            Data="{StaticResource Play}">
+                                            <PathIcon.Effect>
+                                                <DropShadowEffect
+                                                    Color="White"
+                                                    OffsetX="1"
+                                                    OffsetY="1"
+                                                    BlurRadius="1"
+                                                    Opacity="1" />
+                                            </PathIcon.Effect>
+                                        </PathIcon>
+                                    </Button>
+                                </StackPanel>
+                            </templates:ListCard.Actions>
+                        </templates:ListCard>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

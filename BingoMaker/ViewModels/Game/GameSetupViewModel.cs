@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BingoMaker.Data.Repositories;
 using BingoMaker.Models;
 using BingoMaker.Routing;
+using BingoMaker.Services;
 using BingoMaker.Stores;
 using CommunityToolkit.Mvvm.Input;
 
@@ -17,17 +18,20 @@ public partial class GameSetupViewModel : ViewModelBase
     private readonly INavigationRouter _router;
     private readonly IBingoRepository _bingoRepository;
     private readonly IGameRepository _gameRepository;
+    private readonly IDialogService _dialogService;
     
     public ReadOnlyObservableCollection<BingoGameStat> Bingos { get; set; }
 
     public GameSetupViewModel(
         INavigationRouter router,
         IBingoRepository bingoRepository,
-        IGameRepository gameRepository)
+        IGameRepository gameRepository,
+        IDialogService dialogService)
     {
         _router = router;
         _bingoRepository = bingoRepository;
         _gameRepository = gameRepository;
+        _dialogService = dialogService;
         
         var bingos = _bingoRepository.GetAll();
         var gamesDict = _gameRepository.GetAll()
@@ -56,5 +60,12 @@ public partial class GameSetupViewModel : ViewModelBase
     }
     
     [RelayCommand]
-    public Task StartGame(Bingo bingo) => _router.PushAsync<GameViewModel>(bingo);
+    public async Task StartGame(Bingo bingo)
+    {
+        if (await _dialogService.ShowConfirmAsync(
+                "Start a new game",
+                "Are you sure you want to start a new game with this bingo?")
+           )
+            await _router.PushAsync<GameViewModel>(bingo);
+    }
 }
