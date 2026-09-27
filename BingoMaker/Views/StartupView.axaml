@@ -5,20 +5,43 @@
              xmlns:vm="using:BingoMaker.ViewModels"
              xmlns:design="using:BingoMaker.Design"
              NavigationPage.HasNavigationBar="False"
+             Classes="flat"
              Background="Transparent"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
              d:DataContext="{x:Static design:DesignData.Startup}"
              x:Class="BingoMaker.Views.StartupView"
              x:DataType="vm:StartupViewModel">
+    
+    <ContentPage.Styles>
+        <Style Selector="Button">
+            <Setter Property="Padding" Value="48 16"/>
+            <Setter Property="CornerRadius" Value="64"/>
+        </Style>
+        <Style Selector="Button TextBlock.Title">
+            <Setter Property="FontSize" Value="24"/>
+        </Style>
+        <Style Selector="Button Separator">
+            <Setter Property="Margin" Value="-16 0"/>
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </ContentPage.Styles>
+    
     <Grid ColumnDefinitions="*,*" ColumnSpacing="16" Margin="0 -128 0 0">
         <Button
             Grid.Column="0" 
             Command="{Binding GameSetupCommand}"
-            Background="LightGreen" 
             VerticalAlignment="Center" 
             HorizontalAlignment="Center">
-            <StackPanel>
-                <TextBlock HorizontalAlignment="Center">
+            <Button.Background>
+                <LinearGradientBrush 
+                    StartPoint="0%,0%" 
+                    EndPoint="0%,100%">
+                    <GradientStop Color="{StaticResource BrandGreen}" Offset="0.0" />
+                    <GradientStop Color="{StaticResource BrandMint}" Offset="1.0" />
+                </LinearGradientBrush>
+            </Button.Background>
+            <StackPanel Spacing="8">
+                <TextBlock Classes="Title" HorizontalAlignment="Center">
                     Start
                 </TextBlock>
                 <Separator/>
@@ -30,11 +53,18 @@
         <Button
             Grid.Column="1"
             Command="{Binding BingoListCommand}"
-            Background="LightSalmon" 
             VerticalAlignment="Center" 
             HorizontalAlignment="Center">
-            <StackPanel>
-                <TextBlock HorizontalAlignment="Center">
+            <Button.Background>
+                <LinearGradientBrush 
+                    StartPoint="0%,0%" 
+                    EndPoint="0%,100%">
+                    <GradientStop Color="{StaticResource BrandRed}" Offset="0.0" />
+                    <GradientStop Color="{StaticResource BrandOrange}" Offset="1.0" />
+                </LinearGradientBrush>
+            </Button.Background>
+            <StackPanel Spacing="8">
+                <TextBlock Classes="Title" HorizontalAlignment="Center">
                     Editor
                 </TextBlock>
                 <Separator/>

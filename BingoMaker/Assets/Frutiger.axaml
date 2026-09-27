@@ -1,0 +1,565 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="using:BingoMaker.Converters">
+    <Design.PreviewWith>
+        <Border Background="LightSeaGreen" Padding="64">
+            <Border
+                Classes="ListCard"
+                Width="450">
+                <StackPanel Spacing="8">
+                    <TextBlock
+                        Classes="Title"
+                        Text="Title" />
+                    <Border Classes="CardContent">
+                        <StackPanel Spacing="8">
+                            <TextBlock>
+                                <Run>Param:</Run>
+                                <Run Text="Some Value" />
+                            </TextBlock>
+                            <TextBlock>
+                                <Run>Some:</Run>
+                                <Run Text="Some Value" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <StackPanel Classes="CardActions">
+                        <Button
+                            CornerRadius="8"
+                            Padding="8"
+                            Background="{DynamicResource BrandOrange}">
+                            <PathIcon
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Width="16"
+                                Height="16"
+                                Foreground="#FF333333"
+                                Data="{StaticResource Stats}">
+                                <PathIcon.Effect>
+                                    <DropShadowEffect
+                                        Color="White"
+                                        OffsetX="1"
+                                        OffsetY="1"
+                                        BlurRadius="1"
+                                        Opacity="1" />
+                                </PathIcon.Effect>
+                            </PathIcon>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Border>
+    </Design.PreviewWith>
+
+    <Styles.Resources>
+        <BoxShadows x:Key="FrutigerContentShadow">0 4 8 0 #66000000</BoxShadows>
+        <SolidColorBrush x:Key="BrandRedBrush" Color="#FF4D4D" />
+        <SolidColorBrush x:Key="BrandOrangeBrush" Color="#FFA538" />
+        <SolidColorBrush x:Key="BrandGreenBrush" Color="#7ED321" />
+        <SolidColorBrush x:Key="BrandMintBrush" Color="#1FD9A8" />
+
+        <SolidColorBrush x:Key="NotificationInfoBrush" Color="#1AADED" />
+        <SolidColorBrush x:Key="NotificationSuccessBrush" Color="#55CC63" />
+        <SolidColorBrush x:Key="NotificationWarningBrush" Color="#FFD34D" />
+        <SolidColorBrush x:Key="NotificationErrorBrush" Color="#EF3545" />
+
+        <Color x:Key="BrandRed">#FF4D4D</Color>
+        <Color x:Key="BrandOrange">#FFA538</Color>
+        <Color x:Key="BrandGreen">#7ED321</Color>
+        <Color x:Key="BrandMint">#1FD9A8</Color>
+
+        <Color x:Key="NotificationInfo">#1AADED</Color>
+        <Color x:Key="NotificationSuccess">#55CC63</Color>
+        <Color x:Key="NotificationWarning">#FFD34D</Color>
+        <Color x:Key="NotificationError">#EF3545</Color>
+        <Color x:Key="NotificationText">White</Color>
+
+        <LinearGradientBrush x:Key="GlassHighlightBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Color="#80FFFFFF" Offset="0" />
+            <GradientStop Color="#45FFFFFF" Offset="0.35" />
+            <GradientStop Color="#18DDE3E8" Offset="0.65" />
+            <GradientStop Color="#38F0F3F5" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="BrightGlassHighlightBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Color="#B8FFFFFF" Offset="0" />
+            <GradientStop Color="#90FFFFFF" Offset="0.35" />
+            <GradientStop Color="#58DDE3E8" Offset="0.55" />
+            <GradientStop Color="#80F0F3F5" Offset="1" />
+        </LinearGradientBrush>
+
+        <!-- Страница может переопределить эти Color в ContentPage.Resources.
+             Отдельные бары: FrutigerTopBarColor / FrutigerBottomBarColor,
+             FrutigerTopBarTextColor / FrutigerBottomBarTextColor. -->
+        <Color x:Key="FrutigerBarColor">#AAB4B9</Color>
+        <Color x:Key="FrutigerBarTextColor">#253746</Color>
+        <BoxShadows x:Key="FrutigerNavigationBarShadow">inset 0 1 0 0 #80FFFFFF, inset 0 -1 0 0 #5036434B, 0 3 6 0 #50000000</BoxShadows>
+
+        <ControlTheme x:Key="FrutigerNavigationPage"
+                      TargetType="NavigationPage"
+                      BasedOn="{StaticResource {x:Type NavigationPage}}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#33000000" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="ClipToBounds" Value="False" />
+            <Setter Property="HasShadow" Value="False" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid RowDefinitions="Auto,*,Auto" ClipToBounds="False">
+                        <Grid x:Name="PART_ContentHost" Grid.Row="1" Margin="16,0,16,16"
+                              Background="Transparent" ClipToBounds="False">
+                            <ContentPresenter x:Name="PART_PageBackPresenter"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch" />
+                            <ContentPresenter x:Name="PART_PagePresenter"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch" />
+                        </Grid>
+
+                        <!-- Общая верхняя полоса: назад, заголовок, команды страницы. -->
+                        <Border x:Name="PART_NavigationBar"
+                                ZIndex="1" VerticalAlignment="Top"
+                                Height="{TemplateBinding EffectiveBarHeight}"
+                                MaxWidth="768" Margin="16"
+                                Padding="16,0"
+                                CornerRadius="8"
+                                Background="{Binding CurrentPage, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:NavigationBarConverters.TopBackground}}"
+                                BorderBrush="{Binding CurrentPage, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:NavigationBarConverters.TopBorder}}"
+                                BorderThickness="1"
+                                BoxShadow="{StaticResource FrutigerNavigationBarShadow}"
+                                ClipToBounds="False">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <Button x:Name="PART_BackButton" Grid.Column="0"
+                                        Background="{Binding CurrentPage,
+                                                    RelativeSource={RelativeSource TemplatedParent},
+                                                    Converter={x:Static converters:NavigationBarConverters.TopBaseBrush}}"
+                                        IsVisible="{TemplateBinding IsBackButtonEffectivelyVisible}"
+                                        VerticalAlignment="Center" Padding="8" Margin="16 0">
+                                    <Panel>
+                                        <PathIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="16"
+                                            Height="16"
+                                            Data="{StaticResource Back}" />
+                                        <ContentPresenter x:Name="PART_BackButtonContentPresenter"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center" />
+                                    </Panel>
+                                </Button>
+                                <ContentPresenter x:Name="PART_Header" Grid.Column="1"
+                                                  FontWeight="600"
+                                                  Padding="16 0" VerticalAlignment="Center"
+                                                  FontSize="18"
+                                                  Foreground="{Binding CurrentPage, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:NavigationBarConverters.TopForeground}}"
+                                                  Content="{Binding CurrentPage.Header, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}"
+                                                  ContentTemplate="{Binding CurrentPage.HeaderTemplate, RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+                                <ContentPresenter x:Name="PART_TopCommandBar"
+                                                  Foreground="{Binding CurrentPage, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:NavigationBarConverters.TopForeground}}"
+                                                  Grid.Column="2"
+                                                  Padding="16 0"
+                                                  VerticalAlignment="Center"
+                                                  DataContext="{Binding CurrentPage.DataContext, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Content="{Binding CurrentPage.(NavigationPage.TopCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+                            </Grid>
+                        </Border>
+
+                        <!-- Здесь страница передаёт кнопки без собственной декоративной рамки. -->
+                        <Border x:Name="FrutigerBottomBar"
+                                Grid.Row="2" ZIndex="1" VerticalAlignment="Bottom"
+                                MaxWidth="768" Margin="16,0,16,16"
+                                Padding="16,8" CornerRadius="8"
+                                Background="{Binding CurrentPage, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:NavigationBarConverters.BottomBackground}}"
+                                BorderBrush="{Binding CurrentPage, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:NavigationBarConverters.BottomBorder}}"
+                                BorderThickness="1"
+                                ClipToBounds="False"
+                                BoxShadow="{StaticResource FrutigerNavigationBarShadow}"
+                                IsVisible="{Binding CurrentPage.(NavigationPage.BottomCommandBar), RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static ObjectConverters.IsNotNull}}">
+                            <ContentPresenter x:Name="PART_BottomCommandBar"
+                                              Foreground="{Binding CurrentPage, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:NavigationBarConverters.BottomForeground}}"
+                                              ClipToBounds="False"
+                                              HorizontalContentAlignment="Stretch"
+                                              DataContext="{Binding CurrentPage.DataContext, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Content="{Binding CurrentPage.(NavigationPage.BottomCommandBar), RelativeSource={RelativeSource TemplatedParent}, FallbackValue={x:Null}}" />
+                        </Border>
+
+                        <!-- Сохраняем штатные слои модальной навигации. -->
+                        <ContentPresenter x:Name="PART_ModalBackPresenter"
+                                          Grid.RowSpan="3" ZIndex="99" IsVisible="False"
+                                          Background="{TemplateBinding Background}"
+                                          CornerRadius="{TemplateBinding CornerRadius}"
+                                          ClipToBounds="True" />
+                        <ContentPresenter x:Name="PART_ModalPresenter"
+                                          Grid.RowSpan="3" ZIndex="100" IsVisible="False"
+                                          Background="{TemplateBinding Background}"
+                                          CornerRadius="{TemplateBinding CornerRadius}"
+                                          ClipToBounds="True" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </ControlTheme>
+    </Styles.Resources>
+
+    <Style Selector="NavigationPage /template/ Border#PART_NavigationBar Button">
+        <Setter Property="Foreground"
+                Value="{Binding $parent[NavigationPage].CurrentPage, Converter={x:Static converters:NavigationBarConverters.TopForeground}}" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ Border#FrutigerBottomBar Button">
+        <Setter Property="Foreground"
+                Value="{Binding $parent[NavigationPage].CurrentPage, Converter={x:Static converters:NavigationBarConverters.BottomForeground}}" />
+    </Style>
+
+    <!-- Оформляем только содержимое страницы: её командные панели остаются снаружи. -->
+    <Style Selector="ContentPage">
+        <Setter Property="BorderBrush" Value="#33000000" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Background" Value="{StaticResource BrightGlassHighlightBrush}">
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel ClipToBounds="False">
+                    <!-- Содержимым и видимостью этих частей управляет ContentPage. -->
+                    <ContentPresenter x:Name="PART_TopCommandBar"
+                                      DockPanel.Dock="Top"
+                                      HorizontalContentAlignment="Stretch"
+                                      IsVisible="False" />
+                    <ContentPresenter x:Name="PART_BottomCommandBar"
+                                      DockPanel.Dock="Bottom"
+                                      HorizontalContentAlignment="Stretch"
+                                      IsVisible="False" />
+                    <Border x:Name="FrutigerContentSurface"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            ClipToBounds="False">
+                        <Border CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
+                    </Border>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ContentPage /template/ Border#FrutigerContentSurface">
+        <Setter Property="BoxShadow" Value="{DynamicResource FrutigerContentShadow}" />
+    </Style>
+
+    <Style Selector="ContentPage.flat">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="ContentPage.flat /template/ Border#FrutigerContentSurface">
+        <Setter Property="BoxShadow" Value="none" />
+    </Style>
+
+    <Style Selector="Label">
+        <Setter Property="FontWeight" Value="600" />
+    </Style>
+
+    <Style Selector="Button">
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Background" Value="#7F8C8D" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="20,8" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+        <Setter Property="Effect">
+            <DropShadowEffect
+                OffsetX="0"
+                OffsetY="2"
+                BlurRadius="4"
+                Color="Black"
+                Opacity="0.4" />
+        </Setter>
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border x:Name="PART_ButtonRootBorder"
+                        Background="Transparent"
+                        CornerRadius="{TemplateBinding CornerRadius}"
+                        ClipToBounds="False">
+                    <Grid>
+                        <Border x:Name="BackgroundBorder"
+                                BorderBrush="#66ffffff"
+                                BorderThickness="1"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Background="{TemplateBinding Background}"
+                                ClipToBounds="True">
+                            <Panel>
+                                <Grid x:Name="GlossLayer" RowDefinitions="*,*" IsHitTestVisible="False">
+                                    <!-- Верхний блик: половина внутренней высоты кнопки. -->
+                                    <Border Grid.Row="0"
+                                            Margin="0,-1, 0,0"
+                                            CornerRadius="{Binding Bounds.Height, RelativeSource={RelativeSource Self}, Converter={x:Static converters:HighlightConverters.TopCornerRadius}}"
+                                            ClipToBounds="True">
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                                <GradientStop Color="#aaFFFFFF" Offset="0.0" />
+                                                <GradientStop Color="#33FFFFFF" Offset="1.0" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+
+                                    <!-- Нижний блик: половина внутренней высоты кнопки. -->
+                                    <Border x:Name="BottomHighlight"
+                                            Grid.Row="1"
+                                            CornerRadius="{Binding Bounds.Height, RelativeSource={RelativeSource Self}, Converter={x:Static converters:HighlightConverters.BottomCornerRadius}}"
+                                            ClipToBounds="True"
+                                            IsHitTestVisible="False">
+                                        <Border.Transitions>
+                                            <Transitions>
+                                                <DoubleTransition Property="Opacity" Duration="0:0:0.12" />
+                                            </Transitions>
+                                        </Border.Transitions>
+                                        <Border.Background>
+                                            <LinearGradientBrush StartPoint="0%,100%" EndPoint="0%,0%">
+                                                <GradientStop Color="#FFFFFFFF" Offset="0.0" />
+                                                <GradientStop Color="#00FFFFFF" Offset="0.7" />
+                                                <GradientStop Color="#00FFFFFF" Offset="1.0" />
+                                            </LinearGradientBrush>
+                                        </Border.Background>
+                                    </Border>
+                                </Grid>
+
+                                <ContentPresenter x:Name="PART_ContentPresenter"
+                                                  Background="Transparent"
+                                                  Content="{TemplateBinding Content}"
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Margin="{TemplateBinding Padding}" />
+                            </Panel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="Button TextBlock, Button PathIcon, NavigationPage /template/ ContentPresenter#PART_Header">
+        <Setter Property="Effect">
+            <DropShadowEffect Color="Black"
+                              OffsetX="0"
+                              OffsetY="0"
+                              BlurRadius="2"
+                              Opacity="0.6" />
+        </Setter>
+    </Style>
+
+    <Style Selector="Button:pointerover">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ Border#PART_ButtonRootBorder">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ Border#BackgroundBorder">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="Button /template/ Border#BottomHighlight">
+        <Setter Property="Opacity" Value="0.35" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ Border#BottomHighlight">
+        <Setter Property="Opacity" Value="0.6" />
+    </Style>
+
+    <Style Selector="Button:pressed /template/ Border#BottomHighlight">
+        <Setter Property="Opacity" Value="0.2" />
+    </Style>
+
+    <Style Selector="Button /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground"
+                Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
+    </Style>
+    <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button:disabled">
+        <Setter Property="Cursor" Value="Arrow" />
+    </Style>
+    <Style Selector="Button:disabled TextBlock, Button:disabled PathIcon">
+        <Setter Property="Effect">
+            <DropShadowEffect
+                Color="White"
+                OffsetX="1"
+                OffsetY="1"
+                BlurRadius="0"
+                Opacity="0.4" />
+        </Setter>
+    </Style>
+    <Style
+        Selector="NavigationPage /template/ Border#PART_NavigationBar Button:pressed /template/ ContentPresenter#PART_ContentPresenter, NavigationPage /template/ Border#FrutigerBottomBar Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Foreground"
+                Value="{ReflectionBinding TemplatedParent.Foreground, RelativeSource={RelativeSource Self}}" />
+    </Style>
+    <Style Selector="Button:disabled /template/ Border#BackgroundBorder">
+        <Setter Property="Background" Value="#C4C8CB" />
+    </Style>
+    <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#777E84" />
+    </Style>
+    <Style Selector="Button:disabled /template/ Grid#GlossLayer">
+        <Setter Property="Opacity" Value="0.2" />
+    </Style>
+
+    <!-- TextBox: светлое утопленное поле -->
+    <Style Selector="TextBox">
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Padding" Value="12,9" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource NotificationInfo}" />
+
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#253746" />
+        <Setter Property="CaretBrush" Value="#238BC4" />
+        <Setter Property="SelectionBrush" Value="#A9DCF5" />
+        <Setter Property="SelectionForegroundBrush" Value="#172D3B" />
+        <Setter Property="PlaceholderForeground" Value="#84939F" />
+
+        <Setter Property="FocusAdorner" Value="{x:Null}" />
+        <Setter Property="ClipToBounds" Value="False" />
+
+        <!-- Чуть темнее сверху, белое поле снизу -->
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#E3EAF0" Offset="0" />
+                <GradientStop Color="#F5F8FA" Offset="0.3" />
+                <GradientStop Color="#FFFFFF" Offset="1" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+
+    <!-- Внутренняя тень сверху и светлая внешняя кромка снизу -->
+    <Style Selector="TextBox /template/ Border#PART_BorderElement">
+        <Setter Property="BoxShadow"
+                Value="inset 0 2 4 0 #300D2638, 0 1 0 0 #CCFFFFFF" />
+
+        <Setter Property="Transitions">
+            <Transitions>
+                <BoxShadowsTransition Property="BoxShadow"
+                                      Duration="0:0:0.15" />
+            </Transitions>
+        </Setter>
+    </Style>
+
+    <!-- Триггер состояния перекрывает TemplateBinding цвета рамки -->
+    <Style
+        Selector="TextBox:not(:pointerover):not(:focus):not(:error):not(:disabled) /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="#8799A8" />
+    </Style>
+
+    <!-- Сохраняем цвет текста при наведении и фокусе -->
+    <Style Selector="TextBox:pointerover, TextBox:focus">
+        <Setter Property="Foreground" Value="#253746" />
+    </Style>
+
+    <!-- Наведение: осветлённый пользовательский цвет обводки -->
+    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+        <Setter Property="Background"
+                Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="BorderBrush"
+                Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static converters:TextBoxBorderConverters.Hover}}" />
+    </Style>
+
+    <!-- Фокус: пользовательский цвет обводки -->
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+        <Setter Property="Background"
+                Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="BorderThickness"
+                Value="{Binding BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="BorderBrush"
+                Value="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+        <Setter Property="BoxShadow"
+                Value="inset 0 2 4 0 #240D2638, 0 0 5 1 #603AB9F0" />
+    </Style>
+
+    <!-- Ошибка валидации -->
+    <Style Selector="TextBox:error /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource NotificationError}" />
+        <Setter Property="BoxShadow"
+                Value="inset 0 2 4 0 #240D2638, 0 0 4 1 #40EF3545" />
+    </Style>
+
+    <!-- Disabled: серое поле и приглушённый текст -->
+    <Style Selector="TextBox:disabled">
+        <Setter Property="Foreground" Value="#899299" />
+        <Setter Property="PlaceholderForeground" Value="#9BA3AA" />
+    </Style>
+
+    <Style Selector="TextBox:disabled /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="#E3E7EA" />
+        <Setter Property="BorderBrush" Value="#B5BEC5" />
+        <Setter Property="BoxShadow"
+                Value="inset 0 1 3 0 #160D2638, 0 1 0 0 #80FFFFFF" />
+    </Style>
+    
+    <Style Selector="Border.ListCard">
+        <Setter Property="ClipToBounds" Value="False"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="BorderBrush" Value="#88FFFFFF"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#BBB" Offset="0"/>
+                <GradientStop Color="#DDD" Offset="1"/>
+            </LinearGradientBrush>
+        </Setter>
+        <Setter Property="BoxShadow" Value="0 2 4 #cc000000"/>
+    </Style>
+    
+    <Style Selector="Border.ListCard TextBlock.Title">
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="#333"/>
+        <Setter Property="Effect">
+            <DropShadowEffect Color="White"
+                              OffsetX="1"
+                              OffsetY="1"
+                              BlurRadius="0"
+                              Opacity="1" />
+        </Setter>
+    </Style>
+    
+    <Style Selector="Border.ListCard Border.CardContent">
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="#33000000"/>
+        <Setter Property="BoxShadow" Value="inset 0 0 4 #66000000"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Background" Value="White"/>
+    </Style>    
+    
+    <Style Selector="Border.ListCard Border.CardActions">
+    </Style>
+
+</Styles>

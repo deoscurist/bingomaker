@@ -26,5 +26,6 @@
 
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://BingoMaker/Assets/Frutiger.axaml"/>
     </Application.Styles>
 </Application>

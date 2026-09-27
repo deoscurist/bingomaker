@@ -12,6 +12,11 @@
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
              x:DataType="vm:GameViewModel"
              x:Class="BingoMaker.Views.Game.GameView">
+    <ContentPage.Resources>
+        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandMint"/>
+        <Color x:Key="FrutigerBarTextColor">White</Color>
+    </ContentPage.Resources>
+    
     <Border Padding="16">
         <StackPanel Spacing="16">
             <Border DockPanel.Dock="Top" Background="LightGray" Padding="8">

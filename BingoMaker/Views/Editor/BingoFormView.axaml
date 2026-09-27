@@ -11,27 +11,35 @@
              Header="{Binding Header}"
              d:DataContext="{x:Static design:DesignData.BingoForm}"
              x:Class="BingoMaker.Views.Editor.BingoFormView"
+             CornerRadius="8"
+             x:Name="BingoFormPage"
              x:DataType="vm:BingoFormViewModel">
-    <ContentPage.BottomCommandBar>
-        <Border Background="LightGray" Padding="16 8">
-            <DockPanel LastChildFill="False" HorizontalAlignment="Stretch">
-                <Button
-                    IsVisible="{Binding IsExists}"
-                    DockPanel.Dock="Left"
-                    Background="IndianRed"
-                    Command="{Binding DeleteCommand}">
-                    Delete
-                </Button>
-                <Button 
-                    DockPanel.Dock="Right"
-                    Command="{Binding SaveCommand}">
-                    Save
-                </Button>
-            </DockPanel>
-        </Border>
-    </ContentPage.BottomCommandBar>
+    <ContentPage.Resources>
+        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandOrange"/>
+        <Color x:Key="FrutigerBarTextColor">White</Color>
+    </ContentPage.Resources>
     
-    <ScrollViewer Padding="0 56 0 24">
+    <NavigationPage.BottomCommandBar>
+        <DockPanel 
+            LastChildFill="False" 
+            HorizontalAlignment="Stretch">
+            <Button
+                DockPanel.Dock="Left"
+                IsVisible="{Binding #BingoFormPage.((vm:BingoFormViewModel)DataContext).IsExists}"
+                Command="{Binding #BingoFormPage.((vm:BingoFormViewModel)DataContext).DeleteCommand}"
+                Background="{DynamicResource NotificationError}">
+                Delete
+            </Button>
+            <Button
+                DockPanel.Dock="Right"
+                Background="{DynamicResource NotificationInfo}"
+                Command="{Binding #BingoFormPage.((vm:BingoFormViewModel)DataContext).SaveCommand}">
+                Save
+            </Button>
+        </DockPanel>
+    </NavigationPage.BottomCommandBar>
+    
+    <ScrollViewer>
         <StackPanel Orientation="Vertical" Margin="16" Spacing="16">
             <StackPanel>
                 <Label Content="Title:" />
@@ -43,11 +51,18 @@
                         Items:
                     </Label>
                     <Button
+                        CornerRadius="8"
+                        Padding="8"
                         Command="{Binding AddItemCommand}"
                         DockPanel.Dock="Right"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Right">
-                        +
+                        <PathIcon
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Width="16"
+                            Height="16"
+                            Data="{StaticResource Plus}" />
                     </Button>
                 </DockPanel>
                 <Border MaxWidth="720" BorderBrush="Black" BorderThickness="1" Padding="8">
@@ -61,18 +76,25 @@
                             <DataTemplate>
                                 <Border BorderThickness="1" BorderBrush="Black">
                                     <DockPanel Margin="8">
-                                        <Button 
+                                        <Button
+                                            CornerRadius="8"
+                                            Padding="8"
                                             Command="{Binding $parent[ItemsControl].((vm:BingoFormViewModel)DataContext).RemoveItemCommand}"
                                             CommandParameter="{Binding}"
-                                            DockPanel.Dock="Top" 
+                                            DockPanel.Dock="Top"
                                             HorizontalAlignment="Right">
-                                            -
+                                            <PathIcon
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Width="8"
+                                                Height="8"
+                                                Data="{StaticResource Minus}" />
                                         </Button>
                                         <StackPanel
-                                            Spacing="4" 
-                                            HorizontalAlignment="Stretch" 
+                                            Spacing="4"
+                                            HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center">
-                                            <TextBox PlaceholderText="Text here..." Text="{Binding Text}"/>
+                                            <TextBox PlaceholderText="Text here..." Text="{Binding Text}" />
                                             <!-- <TextBlock HorizontalAlignment="Center" Text="or"/> -->
                                         </StackPanel>
                                     </DockPanel>

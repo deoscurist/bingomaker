@@ -12,7 +12,6 @@
         Width="768"
         Height="1024"
         Icon="/Assets/avalonia-logo.ico"
-        Background="LightCoral"
         Title="BingoMaker"
         CanResize="True"
         ShowInTaskbar="True"
@@ -20,12 +19,13 @@
         TransparencyLevelHint="AcrylicBlur">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
 
     <Grid>
+        <Grid.Background>
+            <ImageBrush Source="avares://BingoMaker/Assets/Images/background.jpg" Stretch="UniformToFill" />
+        </Grid.Background>
         <!-- Notifications -->
         <views:NotificationStackView
             FadeHeight="24"
@@ -37,8 +37,7 @@
             Padding="16"
             Width="320"
             ZIndex="1"
-            DataContext="{Binding Notifications}"
-            />
+            DataContext="{Binding Notifications}" />
         <DockPanel>
             <!-- Header -->
             <Border
@@ -46,10 +45,11 @@
                 Padding="16">
                 <StackPanel>
                     <Image Source="/Assets/logo.png" Width="256" />
+                    <!-- <Button Command="{Binding TestNotifyCommand}">test notify</Button> -->
                 </StackPanel>
             </Border>
             <!-- Content -->
-            <NavigationPage x:Name="NavigationRoot" BarHeight="48">
+            <NavigationPage x:Name="NavigationRoot" Theme="{StaticResource FrutigerNavigationPage}" BarHeight="48">
                 <NavigationPage.PageTransition>
                     <PageSlide Duration="0:00:00.250" Orientation="Horizontal" />
                 </NavigationPage.PageTransition>
