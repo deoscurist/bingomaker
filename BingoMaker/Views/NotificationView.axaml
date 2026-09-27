@@ -4,41 +4,68 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BingoMaker.ViewModels"
              xmlns:design="using:BingoMaker.Design"
-             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             mc:Ignorable="d"
+             d:DesignWidth="600"
+             d:DesignHeight="800"
              x:Class="BingoMaker.Views.NotificationView"
              x:DataType="vm:NotificationViewModel"
              d:DataContext="{x:Static design:DesignData.Notification}"
              Loaded="OnLoaded"
              HorizontalAlignment="Stretch"
-             VerticalAlignment="Top">
+             VerticalAlignment="Top"
+             ClipToBounds="False">
+
     <UserControl.Styles>
         <Style Selector="Border.NotificationBox">
             <Setter Property="Background" Value="LightGray"/>
         </Style>
+
+        <Style Selector="Border.NotificationBox TextBlock">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource NotificationText}"/>
+            <Setter Property="Effect">
+                <DropShadowEffect 
+                    Color="Black"
+                    OffsetX="0"
+                    OffsetY="0"
+                    BlurRadius="2"
+                    Opacity="0.6"/>
+            </Setter>
+        </Style>
+
         <Style Selector="Border.NotificationBox.Info">
-            <Setter Property="Background" Value="LightBlue"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource NotificationInfo}"/>
         </Style>
+
         <Style Selector="Border.NotificationBox.Warning">
-            <Setter Property="Background" Value="LightSalmon"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource NotificationWarning}"/>
         </Style>
+
         <Style Selector="Border.NotificationBox.Success">
-            <Setter Property="Background" Value="LightGreen"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource NotificationSuccess}"/>
         </Style>
+
         <Style Selector="Border.NotificationBox.Error">
-            <Setter Property="Background" Value="LightCoral"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource NotificationError}"/>
         </Style>
     </UserControl.Styles>
-    
-    <Border
-        x:Name="NotificationBorder"
-        Classes="NotificationBox"
-        Classes.Info="{Binding IsInfo}"
-        Classes.Warning="{Binding IsWarning}"
-        Classes.Success="{Binding IsSuccess}"
-        Classes.Error="{Binding IsError}"
-        RenderTransform="translate(400px)"
-        CornerRadius="8"
-        BoxShadow="4 4 8 #33000000">
+
+    <!-- Цвет, тень и перемещение всей карточки. -->
+    <Border x:Name="NotificationBorder"
+            Classes="NotificationBox"
+            Classes.Info="{Binding IsInfo}"
+            Classes.Warning="{Binding IsWarning}"
+            Classes.Success="{Binding IsSuccess}"
+            Classes.Error="{Binding IsError}"
+            RenderTransform="translate(400px)"
+            CornerRadius="16"
+            BoxShadow="4 4 8 #33000000"
+            ClipToBounds="False">
+
         <Border.Transitions>
             <Transitions>
                 <TransformOperationsTransition
@@ -47,37 +74,71 @@
                     Easing="CubicEaseOut"/>
             </Transitions>
         </Border.Transitions>
-        
-        <Border
-            CornerRadius="8"
-            BorderBrush="#44000000"
-            BorderThickness="1"
-            Padding="8">
-            <Grid ColumnDefinitions="*,Auto">
-                <StackPanel Spacing="8" Margin="8 0">
-                    <TextBlock 
-                        TextWrapping="Wrap" 
-                        FontSize="16"
-                        Text="{Binding Title}" />
-                    <TextBlock
-                        IsVisible="{Binding HasMessage}"
-                        TextWrapping="Wrap" 
-                        FontSize="12"
-                        Text="{Binding Message}" />
-                </StackPanel>
-                <Button 
-                    Grid.Column="1"
-                    Click="OnCloseClick"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Width="16"
-                    Height="16"
-                    FontSize="12"
-                    Padding="4"
-                    DockPanel.Dock="Top">
-                    <TextBlock FontSize="8" VerticalAlignment="Center" HorizontalAlignment="Center" Text="X"/>
-                </Button>
-            </Grid>
+
+        <!-- Обрезка бликов внутри скруглённой карточки. -->
+        <Border CornerRadius="{Binding #NotificationBorder.CornerRadius}"
+                BorderBrush="#66FFFFFF"
+                BorderThickness="1"
+                ClipToBounds="True">
+
+            <Panel>
+                <!-- Верхний глянцевый блик. -->
+                <Border Height="18"
+                        VerticalAlignment="Top"
+                        IsHitTestVisible="False">
+                    <Border.Background>
+                        <LinearGradientBrush
+                            StartPoint="0%,0%"
+                            EndPoint="0%,100%">
+                            <GradientStop Color="#66FFFFFF" Offset="0"/>
+                            <GradientStop Color="#22FFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Нижнее свечение. -->
+                <Border Height="18"
+                        VerticalAlignment="Bottom"
+                        IsHitTestVisible="False">
+                    <Border.Background>
+                        <LinearGradientBrush
+                            StartPoint="0%,100%"
+                            EndPoint="0%,0%">
+                            <GradientStop Color="#88FFFFFF" Offset="0"/>
+                            <GradientStop Color="#00FFFFFF" Offset="0.75"/>
+                            <GradientStop Color="#00FFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <!-- Содержимое поверх бликов. -->
+                <Grid ColumnDefinitions="*,Auto"
+                      Margin="16">
+
+                    <StackPanel Spacing="8" Margin="8,0">
+                        <TextBlock Text="{Binding Title}"
+                                   FontWeight="600"
+                                   TextWrapping="Wrap"
+                                   FontSize="16"/>
+                        <TextBlock Text="{Binding Message}"
+                                   Margin="0 0 0 8"
+                                   IsVisible="{Binding HasMessage}"
+                                   TextWrapping="Wrap"
+                                   FontSize="11"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="1"
+                            Background="{DynamicResource NotificationError}"
+                            Click="OnCloseClick"
+                            Effect="{x:Null}"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Width="16"
+                            Height="16"
+                            Padding="0">
+                    </Button>
+                </Grid>
+            </Panel>
         </Border>
     </Border>
 </UserControl>
