@@ -21,6 +21,7 @@ public partial class BingoListViewModel : ViewModelBase
     [ObservableProperty]
     public partial bool IsLoaded { get; private set; }
 
+    private readonly ObservableCollection<BingoCardViewModel> _bingos;
     public ReadOnlyObservableCollection<BingoCardViewModel> Bingos { get; }
 
     public BingoListViewModel(
@@ -34,9 +35,10 @@ public partial class BingoListViewModel : ViewModelBase
         
         _ = LoadBingos();
         
-        Bingos = new([.. _bingoStore.Bingos.Select(
-            bingo => new BingoCardViewModel(bingo))
-        ]);
+        _bingos = new(_bingoStore.Bingos.Select(
+            bingo => new BingoCardViewModel(bingo)));
+        
+        Bingos = new(_bingos);
         
         _bingoStore.PropertyChanged += (_, _) => IsLoaded = _bingoStore.IsLoaded;
     }
@@ -63,7 +65,12 @@ public partial class BingoListViewModel : ViewModelBase
                     "Delete Bingo",
                     "Are you sure you want to delete this bingo?")
                )
-                await _bingoStore.DeleteAsync(bingo);
+                if (await _bingoStore.DeleteAsync(bingo))
+                {
+                    var foundBingo = _bingos.FirstOrDefault(b => b.Bingo.Id == bingo.Id);
+                    if (foundBingo is not null) 
+                        _bingos.Remove(foundBingo);
+                }
         }
         catch (Exception e)
         {
