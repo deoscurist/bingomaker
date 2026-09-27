@@ -3,9 +3,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:BingoMaker.ViewModels.Windows"
-        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+        xmlns:design="using:BingoMaker.Design"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="600"
         x:Class="BingoMaker.Views.Windows.ConfirmDialog"
         x:DataType="vm:ConfirmDialogViewModel"
+        d:DataContext="{x:Static design:DesignData.ConfirmDialog}"
         WindowStartupLocation="CenterOwner"
         CanResize="False"
         ShowInTaskbar="False"
@@ -16,13 +18,31 @@
         SizeToContent="WidthAndHeight"
         Title="Confirm">
     <StackPanel Orientation="Vertical" Margin="24 16" Spacing="16">
-        <TextBlock Text="{Binding Message}"
-                   TextWrapping="Wrap" VerticalAlignment="Center" />
-
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right" Spacing="8">
-            <Button Content="Cancel" Command="{Binding CancelCommand}" />
-            <Button Content="OK" Command="{Binding ConfirmCommand}" />
+        <StackPanel 
+            Spacing="8"
+            HorizontalAlignment="Stretch"
+            Orientation="Vertical">
+            <TextBlock FontSize="16" FontWeight="600" Text="{Binding Title}"
+                       TextWrapping="Wrap" VerticalAlignment="Center" />
+            <TextBlock IsVisible="{Binding HasMessage}" Text="{Binding Message}"
+                       TextWrapping="Wrap" VerticalAlignment="Center" />
         </StackPanel>
+
+        <DockPanel
+            HorizontalAlignment="Stretch">
+            <Button 
+                DockPanel.Dock="Left"
+                HorizontalAlignment="Left"
+                Command="{Binding CancelCommand}">
+                Cancel
+            </Button>
+            <Button
+                DockPanel.Dock="Right"
+                HorizontalAlignment="Right"
+                Command="{Binding ConfirmCommand}"
+                Background="{DynamicResource NotificationInfo}">
+                OK
+            </Button>
+        </DockPanel>
     </StackPanel>
 </Window>

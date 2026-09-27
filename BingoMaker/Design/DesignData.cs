@@ -12,6 +12,8 @@ using BingoMaker.Services;
 using BingoMaker.ViewModels;
 using BingoMaker.ViewModels.Editor;
 using BingoMaker.ViewModels.Game;
+using BingoMaker.ViewModels.Windows;
+using BingoMaker.Views.Windows;
 
 namespace BingoMaker.Design;
 
@@ -164,6 +166,7 @@ internal static class DesignData
 
     public static DesignRouter DesignRouter { get; } = new();
     public static IDialogService DesignDialog { get; } = new DesignDialogService();
+    public static ConfirmDialogViewModel ConfirmDialog { get; } = new(new ConfirmDialog(), "Test Title", "Test Message");
 
     public static IGameRepository GameRepository { get; } = new DesignGameRepository(Games);
     public static IBingoRepository BingoRepository { get; } = new DesignBingoRepository(Bingos);

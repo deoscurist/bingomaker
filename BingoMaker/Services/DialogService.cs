@@ -14,10 +14,10 @@ public class DialogService : IDialogService
         _mainWindow = mainWindow;
     }
 
-    public async Task<bool> ShowConfirmAsync(string message)
+    public async Task<bool> ShowConfirmAsync(string title, string? message = null)
     {
         var dialog = new ConfirmDialog();
-        dialog.DataContext = new ConfirmDialogViewModel(dialog, message);
+        dialog.DataContext = new ConfirmDialogViewModel(dialog, title, message);
         var result = await dialog.ShowDialog<bool?>(_mainWindow);
         return result == true;
     }

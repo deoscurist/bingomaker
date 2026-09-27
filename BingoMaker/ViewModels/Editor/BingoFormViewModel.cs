@@ -130,7 +130,10 @@ public partial class BingoFormViewModel : ViewModelBase
     {
         try
         {
-            if (await _dialogService.ShowConfirmAsync("Are you sure you want to delete this bingo?"))
+            if (await _dialogService.ShowConfirmAsync(
+                    "Delete Bingo",
+                    "Are you sure you want to delete this bingo?")
+                )
             {
                 await _bingoStore.DeleteAsync(_bingo);
                 await _router.PushAsync<BingoListViewModel>();

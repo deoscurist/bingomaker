@@ -5,5 +5,5 @@ namespace BingoMaker.Design.Services;
 
 public class DesignDialogService : IDialogService
 {
-    public Task<bool> ShowConfirmAsync(string message) => Task.FromResult(true);
+    public Task<bool> ShowConfirmAsync(string title, string? message = null) => Task.FromResult(true);
 }

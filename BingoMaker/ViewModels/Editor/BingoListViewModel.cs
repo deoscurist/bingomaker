@@ -54,7 +54,10 @@ public partial class BingoListViewModel : ViewModelBase
     {
         try
         {
-            if (await _dialogService.ShowConfirmAsync("Are you sure you want to delete this bingo?"))
+            if (await _dialogService.ShowConfirmAsync(
+                    "Delete Bingo",
+                    "Are you sure you want to delete this bingo?")
+               )
                 await _bingoStore.DeleteAsync(bingo);
         }
         catch (Exception e)

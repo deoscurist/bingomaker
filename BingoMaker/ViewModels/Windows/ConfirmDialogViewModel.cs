@@ -8,11 +8,15 @@ public partial class ConfirmDialogViewModel : ObservableObject
 {
     private readonly Window _dialog;
     
-    public string Message { get; }
+    public string Title { get; }
+    public string? Message { get; }
     
-    public ConfirmDialogViewModel(Window dialog, string message)
+    public bool? HasMessage => Message != null;
+    
+    public ConfirmDialogViewModel(Window dialog, string title, string? message = null)
     {
         _dialog = dialog;
+        Title = title;
         Message = message;
     }
     
