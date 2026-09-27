@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:BingoMaker.ViewModels.Editor"
              xmlns:design="using:BingoMaker.Design"
+             xmlns:views="using:BingoMaker.Views.Editor"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
              NavigationPage.HasNavigationBar="True"
              NavigationPage.BarLayoutBehavior="Overlay"
@@ -12,11 +13,17 @@
              d:DataContext="{x:Static design:DesignData.BingoList}"
              x:Class="BingoMaker.Views.Editor.BingoListView"
              x:DataType="vm:BingoListViewModel">
-    <ScrollViewer Padding="0 56 0 24">
+    <ContentPage.Resources>
+        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandOrange"/>
+        <Color x:Key="FrutigerBarTextColor">White</Color>
+    </ContentPage.Resources>
+    
+    <ScrollViewer>
         <StackPanel Margin="16" Spacing="16">
             <Button
+                FontWeight="600"
                 Command="{Binding BingoFormCommand}"
-                Background="GreenYellow" 
+                Background="{DynamicResource NotificationSuccess}"
                 HorizontalAlignment="Stretch">
                 <Button.Content>
                     <TextBlock HorizontalAlignment="Center">
@@ -33,36 +40,8 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border
-                            Tapped="BingoForm_OnTapped"
-                            CornerRadius="16"
-                            Padding="24"
-                            Background="LightGray"
-                        >
-                            <StackPanel>
-                                <TextBlock Height="64" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Center" Text="{Binding Title}"/>
-                                <Grid ColumnDefinitions="*,Auto">
-                                    <StackPanel Grid.Column="0" Spacing="8">
-                                        <TextBlock>
-                                            <Run>Created At:</Run>
-                                            <Run Text="{Binding CreatedAt}"/>
-                                        </TextBlock>
-                                        <TextBlock>
-                                            <Run>Items:</Run>
-                                            <Run Text="{Binding Items.Count}"/>
-                                        </TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Bottom">
-                                        <Button
-                                            Command="{Binding #BingoList.((vm:BingoListViewModel)DataContext).DeleteCommand}"
-                                            CommandParameter="{Binding}"
-                                            Background="IndianRed"
-                                            Content="Delete"/>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
+                    <DataTemplate x:DataType="vm:BingoCardViewModel">
+                        <views:BingoCardView/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

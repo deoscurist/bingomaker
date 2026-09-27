@@ -1,10 +1,12 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using BingoMaker.Models;
 using BingoMaker.Routing;
 using BingoMaker.Services;
 using BingoMaker.Stores;
+using BingoMaker.ViewModels.Game;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -18,9 +20,8 @@ public partial class BingoListViewModel : ViewModelBase
     
     [ObservableProperty]
     public partial bool IsLoaded { get; private set; }
-    
-    public ReadOnlyObservableCollection<Bingo> Bingos
-        => _bingoStore.Bingos;
+
+    public ReadOnlyObservableCollection<BingoCardViewModel> Bingos { get; }
 
     public BingoListViewModel(
         INavigationRouter router, 
@@ -31,9 +32,13 @@ public partial class BingoListViewModel : ViewModelBase
         _bingoStore = bingoStore;
         _dialogService = dialogService;
         
-        _bingoStore.PropertyChanged += (_, _) => IsLoaded = _bingoStore.IsLoaded;
-
         _ = LoadBingos();
+        
+        Bingos = new([.. _bingoStore.Bingos.Select(
+            bingo => new BingoCardViewModel(bingo))
+        ]);
+        
+        _bingoStore.PropertyChanged += (_, _) => IsLoaded = _bingoStore.IsLoaded;
     }
 
     [RelayCommand]

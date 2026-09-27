@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels.Editor"
+             xmlns:views="using:BingoMaker.Views.Editor"
+             xmlns:templates="using:BingoMaker.Views.Templates"
+             xmlns:design="using:BingoMaker.Design"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="200"
+             x:Class="BingoMaker.Views.Editor.BingoCardView"
+             x:DataType="vm:BingoCardViewModel">
+    <templates:ListCard Title="{Binding Bingo.Title}">
+        <templates:ListCard.Content>
+            <StackPanel Spacing="8">
+                <TextBlock>
+                    <Run>Created At:</Run>
+                    <Run Text="{Binding Bingo.CreatedAt}"/>
+                </TextBlock>
+                <TextBlock>
+                    <Run>Items:</Run>
+                    <Run Text="{Binding Bingo.Items.Count}"/>
+                </TextBlock>
+            </StackPanel>
+        </templates:ListCard.Content>
+
+        <templates:ListCard.Actions>
+            <DockPanel>
+                <StackPanel 
+                    Spacing="8" 
+                    Orientation="Horizontal"
+                    DockPanel.Dock="Left">
+                    <Button
+                        CornerRadius="8"
+                        Padding="8"
+                        Command="{Binding $parent[views:BingoListView].((vm:BingoListViewModel)DataContext).DeleteCommand}"
+                        CommandParameter="{Binding Bingo}"
+                        Background="{DynamicResource NotificationError}">
+                        <PathIcon
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Width="16"
+                            Height="16"
+                            Data="{StaticResource Trash}"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel 
+                    Spacing="8"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    DockPanel.Dock="Right">
+                    <Button
+                        CornerRadius="8"
+                        Padding="8"
+                        Command="{Binding $parent[views:BingoListView].((vm:BingoListViewModel)DataContext).BingoFormCommand}"
+                        CommandParameter="{Binding Bingo}"
+                        Background="{DynamicResource NotificationInfo}">
+                        <PathIcon
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Width="16"
+                            Height="16"
+                            Data="{StaticResource Edit}"/>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </templates:ListCard.Actions>
+    </templates:ListCard>
+</UserControl>
