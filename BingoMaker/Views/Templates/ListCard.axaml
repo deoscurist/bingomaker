@@ -1,0 +1,110 @@
+<!-- <Styles xmlns="https://github.com/avaloniaui" -->
+<!--         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" -->
+<!--         xmlns:controls="using:BingoMaker.Views.Templates"> -->
+<!--     <Design.PreviewWith> -->
+<!--         <controls:ListCard /> -->
+<!--     </Design.PreviewWith> -->
+<!-- -->
+<!--     <Style Selector="controls|ListCard"> -->
+<!--         ~1~ Set Defaults @1@ -->
+<!--         <Setter Property="Template"> -->
+<!--             <ControlTemplate> -->
+<!--                 <TextBlock Text="Templated Control" /> -->
+<!--             </ControlTemplate> -->
+<!--         </Setter> -->
+<!--     </Style> -->
+<!-- </Styles> -->
+
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:BingoMaker.Views.Templates">
+    
+    <Design.PreviewWith>
+        <Border Padding="32" Background="LightSeaGreen">
+            <controls:ListCard Title="Title" Width="450">
+                <controls:ListCard.Content>
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Param:" />
+                        <TextBlock Text="Value" />
+                    </StackPanel>
+                </controls:ListCard.Content>
+
+                <controls:ListCard.Actions>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="8">
+                        <Button
+                            CornerRadius="8"
+                            Padding="8"
+                            Background="{DynamicResource BrandOrange}">
+                            <PathIcon
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Width="16"
+                                Height="16"
+                                Foreground="#FF333333"
+                                Data="{StaticResource Stats}">
+                                <PathIcon.Effect>
+                                    <DropShadowEffect
+                                        Color="White"
+                                        OffsetX="1"
+                                        OffsetY="1"
+                                        BlurRadius="1"
+                                        Opacity="1" />
+                                </PathIcon.Effect>
+                            </PathIcon>
+                        </Button>
+                        <Button
+                            CornerRadius="8"
+                            Padding="8"
+                            Background="{DynamicResource BrandGreen}">
+                            <PathIcon
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Width="16"
+                                Height="16"
+                                Foreground="#FF333333"
+                                Data="{StaticResource Play}">
+                                <PathIcon.Effect>
+                                    <DropShadowEffect
+                                        Color="White"
+                                        OffsetX="1"
+                                        OffsetY="1"
+                                        BlurRadius="1"
+                                        Opacity="1" />
+                                </PathIcon.Effect>
+                            </PathIcon>
+                        </Button>
+                    </StackPanel>
+                </controls:ListCard.Actions>
+            </controls:ListCard>
+        </Border>
+    </Design.PreviewWith>
+
+    <ControlTheme
+        x:Key="{x:Type controls:ListCard}"
+        TargetType="controls:ListCard">
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Classes="ListCard">
+                    <StackPanel Spacing="8">
+                        <TextBlock
+                            Classes="Title"
+                            Text="{TemplateBinding Title}" />
+
+                        <Border Classes="CardContent">
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}" />
+                        </Border>
+
+                        <Border Classes="CardActions">
+                            <ContentPresenter
+                                Classes="CardActions"
+                                Content="{TemplateBinding Actions}" />
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>
