@@ -33,7 +33,9 @@ public partial class BingoStore : ObservableObject, IBingoStore
         
         try
         {
-            var bingos = _repository.GetAll();
+            var bingos = _repository.GetAll()
+                .OrderByDescending(bingo => bingo.CreatedAt);
+            
             _bingos.Clear();
         
             foreach (var bingo in bingos)
