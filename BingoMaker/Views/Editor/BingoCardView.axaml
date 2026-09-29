@@ -11,16 +11,18 @@
              x:DataType="vm:BingoCardViewModel">
     <templates:ListCard Title="{Binding Bingo.Title}">
         <templates:ListCard.Content>
-            <StackPanel Spacing="8">
-                <TextBlock>
-                    <Run>Created At:</Run>
-                    <Run Text="{Binding Bingo.CreatedAt}"/>
-                </TextBlock>
-                <TextBlock>
-                    <Run>Items:</Run>
-                    <Run Text="{Binding Bingo.Items.Count}"/>
-                </TextBlock>
-            </StackPanel>
+            <Border Classes="CardContentInner">
+                <StackPanel Spacing="8">
+                    <TextBlock>
+                        <Run>Created At:</Run>
+                        <Run Text="{Binding Bingo.CreatedAt}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run>Items:</Run>
+                        <Run Text="{Binding Bingo.Items.Count}"/>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
         </templates:ListCard.Content>
 
         <templates:ListCard.Actions>

@@ -528,9 +528,9 @@
         <Setter Property="BorderBrush" Value="#88FFFFFF"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Background">
-            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                <GradientStop Color="#BBB" Offset="0"/>
-                <GradientStop Color="#DDD" Offset="1"/>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#EEE" Offset="0"/>
+                <GradientStop Color="#BBB" Offset="1"/>
             </LinearGradientBrush>
         </Setter>
         <Setter Property="BoxShadow" Value="0 2 4 #cc000000"/>
@@ -539,7 +539,6 @@
     <Style Selector="Border.ListCard TextBlock.Title">
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="FontSize" Value="20"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Foreground" Value="#333"/>
         <Setter Property="Effect">
             <DropShadowEffect Color="White"
@@ -551,11 +550,14 @@
     </Style>
     
     <Style Selector="Border.ListCard Border.CardContent">
+    </Style>  
+    
+    <Style Selector="Border.ListCard Border.CardContent Border.CardContentInner">
+        <Setter Property="Padding" Value="8 16"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="#33000000"/>
         <Setter Property="BoxShadow" Value="inset 0 0 4 #66000000"/>
-        <Setter Property="Padding" Value="8"/>
         <Setter Property="Background" Value="White"/>
     </Style>    
     

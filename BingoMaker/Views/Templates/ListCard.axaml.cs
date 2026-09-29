@@ -9,6 +9,9 @@ public class ListCard : TemplatedControl
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<ListCard, string>(nameof(Title));
     
+    public static readonly StyledProperty<string> TitleAlignmentProperty =
+        AvaloniaProperty.Register<ListCard, string>(nameof(TitleAlignment), "Center");
+    
     public static readonly StyledProperty<object?> ContentProperty =
         AvaloniaProperty.Register<ListCard, object?>(nameof(Content));
     
@@ -19,6 +22,12 @@ public class ListCard : TemplatedControl
     {
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
+    }
+    
+    public string TitleAlignment
+    {
+        get => GetValue(TitleAlignmentProperty);
+        set => SetValue(TitleAlignmentProperty, value);
     }
     
     public object? Content

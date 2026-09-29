@@ -30,16 +30,18 @@
                     <DataTemplate>
                         <templates:ListCard Title="{Binding Bingo.Title}">
                             <templates:ListCard.Content>
-                                <StackPanel Grid.Column="0" Spacing="8">
-                                    <TextBlock>
-                                        <Run>Last played:</Run>
-                                        <Run Text="{Binding  LatestFinishedAt}"/>
-                                    </TextBlock>
-                                    <TextBlock>
-                                        <Run>Total games:</Run>
-                                        <Run Text="{Binding TotalCount}"/>
-                                    </TextBlock>
-                                </StackPanel>
+                                <Border Classes="CardContentInner">
+                                    <StackPanel Spacing="8">
+                                        <TextBlock>
+                                            <Run>Last played:</Run>
+                                            <Run Text="{Binding  LatestFinishedAt}"/>
+                                        </TextBlock>
+                                        <TextBlock>
+                                            <Run>Total games:</Run>
+                                            <Run Text="{Binding TotalCount}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
                             </templates:ListCard.Content>
                             <templates:ListCard.Actions>
                                 <StackPanel Spacing="8" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">

@@ -89,6 +89,7 @@
                 <Border Classes="ListCard">
                     <StackPanel Spacing="8">
                         <TextBlock
+                            HorizontalAlignment="{TemplateBinding TitleAlignment}"
                             Classes="Title"
                             Text="{TemplateBinding Title}" />
 
@@ -97,7 +98,10 @@
                                 Content="{TemplateBinding Content}" />
                         </Border>
 
-                        <Border Classes="CardActions">
+                        <Border 
+                            IsVisible="{TemplateBinding Actions,
+                                Converter={x:Static ObjectConverters.IsNotNull}}"
+                            Classes="CardActions">
                             <ContentPresenter
                                 Classes="CardActions"
                                 Content="{TemplateBinding Actions}" />
