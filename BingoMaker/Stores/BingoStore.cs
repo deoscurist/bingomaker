@@ -39,7 +39,7 @@ public partial class BingoStore : ObservableObject, IBingoStore
             _bingos.Clear();
         
             foreach (var bingo in bingos)
-                _bingos.Add(bingo);
+                _bingos.Insert(0, bingo);
         }
         catch (Exception exception)
         {
