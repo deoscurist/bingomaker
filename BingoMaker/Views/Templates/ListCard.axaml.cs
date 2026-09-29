@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Layout;
 
 namespace BingoMaker.Views.Templates;
 
@@ -9,8 +10,8 @@ public class ListCard : TemplatedControl
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<ListCard, string>(nameof(Title));
     
-    public static readonly StyledProperty<string> TitleAlignmentProperty =
-        AvaloniaProperty.Register<ListCard, string>(nameof(TitleAlignment), "Center");
+    public static readonly StyledProperty<HorizontalAlignment> TitleAlignmentProperty =
+        AvaloniaProperty.Register<ListCard, HorizontalAlignment>(nameof(TitleAlignment), HorizontalAlignment.Center);
     
     public static readonly StyledProperty<object?> ContentProperty =
         AvaloniaProperty.Register<ListCard, object?>(nameof(Content));
@@ -24,7 +25,7 @@ public class ListCard : TemplatedControl
         set => SetValue(TitleProperty, value);
     }
     
-    public string TitleAlignment
+    public HorizontalAlignment TitleAlignment
     {
         get => GetValue(TitleAlignmentProperty);
         set => SetValue(TitleAlignmentProperty, value);
