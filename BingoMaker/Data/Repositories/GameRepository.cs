@@ -15,7 +15,7 @@ public class GameRepository(ILiteDatabase database) : IGameRepository
         return _collection.FindAll().ToList();
     }
     
-    public IReadOnlyCollection<Game> GetAllOrderedByBingoId()
+    public IReadOnlyCollection<Game> GetAllByBingoId()
     {
         return _collection.FindAll().OrderBy(x => x.BingoId).ToList();
     }

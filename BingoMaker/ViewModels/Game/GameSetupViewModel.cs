@@ -68,4 +68,7 @@ public partial class GameSetupViewModel : ViewModelBase
            )
             await _router.PushAsync<GameViewModel>(bingo);
     }
+    
+    [RelayCommand]
+    public Task OpenStats(Bingo bingo) => _router.PushAsync<GameStatsViewModel>(bingo);
 }

@@ -1,0 +1,124 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels.Game"
+             xmlns:views="using:BingoMaker.Views.Game"
+             xmlns:templates="using:BingoMaker.Views.Templates"
+             xmlns:design="using:BingoMaker.Design"
+             xmlns:ScottPlot="clr-namespace:ScottPlot.Avalonia;assembly=ScottPlot.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="500"
+             x:Class="BingoMaker.Views.Game.GameStatCardView"
+             d:DataContext="{x:Static design:DesignData.GameStatCard}"
+             x:DataType="vm:GameStatCardViewModel">
+    <templates:ListCard
+        TitleAlignment="Left"
+        Title="{Binding Game.StartedAt, StringFormat='Game on {0}'}">
+        <templates:ListCard.Content>
+            <StackPanel>
+                <Border
+                    IsVisible="{Binding HasChart}" 
+                    Classes="CardContentInner">
+                    <StackPanel Spacing="16">
+                        <TextBlock 
+                            IsVisible="{Binding TotalDuration, 
+                            Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                            <Run FontWeight="600">Game time:</Run>
+                            <Run Text="{Binding TotalDuration}"/>
+                        </TextBlock>
+                        <ScottPlot:AvaPlot
+                            x:Name="StatsPlot"
+                            Height="256"
+                            IsHitTestVisible="False"
+                            Margin="0 16"/>
+                    </StackPanel>
+                </Border>
+                <Border
+                    IsVisible="{Binding !!IsEmpty}" 
+                    Margin="0 8"
+                    Padding="24 16" 
+                    CornerRadius="8" 
+                    BorderBrush="BurlyWood" 
+                    BorderThickness="1"
+                    BoxShadow="2 2 4 #AA000000"
+                    Background="Wheat">
+                    <TextBlock Text="No marked items"/>
+                </Border>
+                <Border
+                    IsVisible="{Binding !!IsLessThanASecond}" 
+                    Margin="0 8"
+                    Padding="24 16" 
+                    CornerRadius="8" 
+                    BorderBrush="BurlyWood" 
+                    BorderThickness="1"
+                    BoxShadow="2 2 4 #AA000000"
+                    Background="Wheat">
+                    <TextBlock Text="Game was less than a second, it's impossible to show results"/>
+                </Border>
+                <Border
+                    IsVisible="{Binding !IsGameFinished}" 
+                    Margin="0 8"
+                    Padding="24 16" 
+                    CornerRadius="8" 
+                    BorderBrush="BurlyWood" 
+                    BorderThickness="1"
+                    BoxShadow="2 2 4 #AA000000"
+                    Background="Wheat">
+                    <TextBlock Text="Game wasn't be finished"/>
+                </Border>
+            </StackPanel>
+        </templates:ListCard.Content>
+        <templates:ListCard.Actions>
+            <DockPanel>
+                <StackPanel 
+                    Spacing="8" 
+                    Orientation="Horizontal"
+                    DockPanel.Dock="Left">
+                    <Button
+                        CornerRadius="8"
+                        Padding="8"
+                        Command="{Binding $parent[views:GameStatsView].((vm:GameStatsViewModel)DataContext).DeleteCommand}"
+                        CommandParameter="{Binding Game}"
+                        Background="{DynamicResource NotificationError}">
+                        <PathIcon
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Width="16"
+                            Height="16"
+                            Data="{StaticResource Trash}"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel 
+                    DockPanel.Dock="Right"
+                    Spacing="8" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom">
+                    <Button
+                        CornerRadius="8"
+                        Padding="8"
+                        Command="{Binding $parent[views:GameStatsView].((vm:GameStatsViewModel)DataContext).OpenGameCommand}"
+                        CommandParameter="{Binding Game}"
+                        Background="{DynamicResource BrandMint}">
+                        <PathIcon
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Width="16"
+                            Height="16"
+                            Foreground="#FF333333"
+                            Data="{StaticResource Show}">
+                            <PathIcon.Effect>
+                                <DropShadowEffect
+                                    Color="White"
+                                    OffsetX="1"
+                                    OffsetY="1"
+                                    BlurRadius="1"
+                                    Opacity="1" />
+                            </PathIcon.Effect>
+                        </PathIcon>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </templates:ListCard.Actions>
+    </templates:ListCard>
+</UserControl>

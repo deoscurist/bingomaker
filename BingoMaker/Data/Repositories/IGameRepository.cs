@@ -7,7 +7,7 @@ namespace BingoMaker.Data.Repositories;
 public interface IGameRepository
 {
     IReadOnlyList<Game> GetAll();
-    public IReadOnlyCollection<Game> GetAllOrderedByBingoId();
+    public IReadOnlyCollection<Game> GetAllByBingoId();
     Game? GetById(Guid id);
     bool Save(Game game);
     bool Delete(Game game);

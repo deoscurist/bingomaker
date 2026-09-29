@@ -1,0 +1,37 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels.Game"
+             xmlns:design="using:BingoMaker.Design"
+             xmlns:views="using:BingoMaker.Views.Game"
+             xmlns:templates="using:BingoMaker.Views.Templates"
+             NavigationPage.HasNavigationBar="True"
+             NavigationPage.BarLayoutBehavior="Overlay"
+             Header="{Binding Header}"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             d:DataContext="{x:Static design:DesignData.GameStats}"
+             x:DataType="vm:GameStatsViewModel"
+             x:Class="BingoMaker.Views.Game.GameStatsView">
+    <ContentPage.Resources>
+        <StaticResource x:Key="FrutigerBarColor" ResourceKey="NotificationSuccess"/>
+        <Color x:Key="FrutigerBarTextColor">White</Color>
+    </ContentPage.Resources>
+    
+    <ScrollViewer>
+        <StackPanel Margin="16">
+            <ItemsControl ItemsSource="{Binding Games}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Spacing="16"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <views:GameStatCardView/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</ContentPage>

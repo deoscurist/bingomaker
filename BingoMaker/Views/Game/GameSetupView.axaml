@@ -48,6 +48,29 @@
                                     <Button
                                         CornerRadius="8"
                                         Padding="8"
+                                        Command="{Binding $parent[views:GameSetupView].((vm:GameSetupViewModel)DataContext).OpenStatsCommand}"
+                                        CommandParameter="{Binding Bingo}"
+                                        Background="{DynamicResource BrandOrange}">
+                                        <PathIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Width="16"
+                                            Height="16"
+                                            Foreground="#FF333333"
+                                            Data="{StaticResource Stats}">
+                                            <PathIcon.Effect>
+                                                <DropShadowEffect
+                                                    Color="White"
+                                                    OffsetX="1"
+                                                    OffsetY="1"
+                                                    BlurRadius="1"
+                                                    Opacity="1" />
+                                            </PathIcon.Effect>
+                                        </PathIcon>
+                                    </Button>
+                                    <Button
+                                        CornerRadius="8"
+                                        Padding="8"
                                         Command="{Binding $parent[views:GameSetupView].((vm:GameSetupViewModel)DataContext).StartGameCommand}"
                                         CommandParameter="{Binding Bingo}"
                                         Background="{DynamicResource BrandGreen}">

@@ -32,14 +32,16 @@ internal static class DesignData
         new Game
         {
             BingoId = Guid.NewGuid(),
+            StartedAt = DateTime.Now - TimeSpan.FromMinutes(3),
+            FinishedAt = DateTime.Now,
             Items =
             [
                 new GameItem { BingoItem = new BingoItem { Text = "lol" } },
                 new GameItem { BingoItem = new BingoItem { Text = "lol" } },
-                new GameItem { BingoItem = new BingoItem { Text = "lol" }, MarkedAt = DateTime.Now },
+                new GameItem { BingoItem = new BingoItem { Text = "lol" }, MarkedAt = DateTime.Now - TimeSpan.FromMinutes(1) },
                 new GameItem { BingoItem = new BingoItem { Text = "lol" } },
-                new GameItem { BingoItem = new BingoItem { Text = "lol" }, MarkedAt = DateTime.Now },
-                new GameItem { BingoItem = new BingoItem { Text = "lol" }, MarkedAt = DateTime.Now },
+                new GameItem { BingoItem = new BingoItem { Text = "lol" }, MarkedAt = DateTime.Now - TimeSpan.FromMinutes(2) },
+                new GameItem { BingoItem = new BingoItem { Text = "lol" }, MarkedAt = DateTime.Now - TimeSpan.FromMinutes(1) },
             ]
         },
         new Game
@@ -184,6 +186,8 @@ internal static class DesignData
     
     public static StartupViewModel Startup { get; } = new(DesignRouter);
     public static GameSetupViewModel GameSetup { get; } = new(DesignRouter, BingoRepository, GameRepository, DesignDialog);
+    public static GameStatsViewModel GameStats { get; } = new(DesignRouter, DesignDialog, GameRepository, Bingos[0]);
+    public static GameStatCardViewModel GameStatCard { get; } = new(Games[0]);
     public static GameViewModel Game { get; } = new(DesignRouter, GameStore, Bingos[0]);
     public static BingoListViewModel BingoList { get; } = new(DesignRouter, BingoStore, DesignDialog);
     public static BingoFormViewModel BingoForm { get; } = new(DesignRouter, BingoStore, DesignDialog, Bingos[0]);

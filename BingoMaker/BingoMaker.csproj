@@ -28,6 +28,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="ScottPlot.Avalonia" Version="5.1.59" />
     </ItemGroup>
     <ItemGroup>
       <Compile Update="Views\Game\GameSetupView.axaml.cs">
