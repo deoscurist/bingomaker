@@ -25,6 +25,7 @@ public class AppTray : IDisposable
             Icon = new WindowIcon(
                 AssetLoader.Open(new Uri("avares://BingoMaker/Assets/bingo-logo.ico"))),
             ToolTipText = "BingoMaker",
+            Menu = [],
             IsVisible = true,
         };
         
@@ -39,11 +40,6 @@ public class AppTray : IDisposable
     {
         Dispatcher.UIThread.Post(() =>
         {
-            if (_trayIcon.Menu == null)
-            {
-                _trayIcon.Menu = new NativeMenu();
-            }
-
             var nativeMenu = _trayIcon.Menu;
             nativeMenu.Items.Clear();
             
