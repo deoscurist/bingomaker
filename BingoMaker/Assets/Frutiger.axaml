@@ -564,4 +564,21 @@
     <Style Selector="Border.ListCard Border.CardActions">
     </Style>
 
+    <Style Selector="Border.BingoTable">
+        <Setter Property="Background" Value="#EEEEEE"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="BoxShadow" Value="inset 0 0 4 #66000000"/>
+        <Setter Property="BorderBrush" Value="#33000000"/> 
+        <Setter Property="BorderThickness" Value="1"/> 
+        <Setter Property="Padding" Value="16"/>
+    </Style>
+
+    <Style Selector="Border.BingoTable Border.BingoCell">
+        <Setter Property="ClipToBounds" Value="False"/>
+        <Setter Property="CornerRadius" Value="16"/>
+        <Setter Property="BoxShadow" Value="0 0 8 #66000000"/>
+        <Setter Property="BorderBrush" Value="#FFFFFFFF"/>
+        <Setter Property="BorderThickness" Value="1"/> 
+        <Setter Property="Background" Value="{StaticResource BrightGlassHighlightBrush}"/>
+    </Style>
 </Styles>

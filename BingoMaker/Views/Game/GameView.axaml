@@ -5,84 +5,98 @@
              xmlns:vm="using:BingoMaker.ViewModels.Game"
              xmlns:controls="using:BingoMaker.Controls"
              xmlns:design="using:BingoMaker.Design"
+             x:Name="GamePage"
              NavigationPage.HasBackButton="False"
-             NavigationPage.HasNavigationBar="False"
-             Header="GAME"
+             NavigationPage.HasNavigationBar="True"
              d:DataContext="{x:Static design:DesignData.Game}"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
              x:DataType="vm:GameViewModel"
              x:Class="BingoMaker.Views.Game.GameView">
     <ContentPage.Resources>
-        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandMint"/>
+        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandMint" />
         <Color x:Key="FrutigerBarTextColor">White</Color>
     </ContentPage.Resources>
-    
-    <Border Padding="16">
-        <StackPanel Spacing="16">
-            <Border DockPanel.Dock="Top" Background="LightGray" Padding="8">
-                <Grid 
-                    ColumnDefinitions="*,Auto,*"
-                    HorizontalAlignment="Stretch" 
-                    VerticalAlignment="Top">
-                    <Button 
-                        Command="{Binding StopGameCommand}"
-                        VerticalAlignment="Center" 
-                        HorizontalAlignment="Left" 
-                        Background="Red" 
-                        Content="Stop"/>
-                    <TextBlock
-                        Grid.Column="1"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        Text="{Binding Bingo.Title}"/>
-                    <TextBlock
-                        Grid.Column="2"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Text="{Binding GameTime, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
-                </Grid>
-            </Border>
-            <Border BorderBrush="Black" BorderThickness="1" Padding="8">
-                <ScrollViewer>
-                    <ItemsControl IsVisible="{Binding Items.Count}" ItemsSource="{Binding Items}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <controls:BingoPanel Size="{Binding Size}" Spacing="8" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border 
-                                    Tapped="MarkItem_OnTapped" 
-                                    BorderThickness="1" 
-                                    Background="Transparent"
-                                    BorderBrush="Black">
-                                    <DockPanel Margin="8">
-                                        <Grid>
-                                            <TextBlock
-                                                Margin="8"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Model.BingoItem.Text}" />
 
-                                            <Path
-                                                Margin="4"
-                                                Data="M 0,0 L 100,100 M 100,0 L 0,100"
-                                                Stretch="Fill"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Stroke="Red"
-                                                StrokeThickness="3"
-                                                IsHitTestVisible="False"
-                                                IsVisible="{Binding IsMarked}" />
-                                        </Grid>
-                                    </DockPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+    <ContentPage.Header>
+        <Grid
+            ColumnDefinitions="Auto,*"
+            ColumnSpacing="16"
+            DataContext="{Binding #GamePage.((vm:GameViewModel)DataContext)}">
+
+            <Button
+                Grid.Column="0"
+                Content="Stop"
+                Command="{Binding StopGameCommand}"
+                Background="{DynamicResource NotificationError}"
+                VerticalAlignment="Center" />
+
+            <TextBlock
+                Grid.Column="1"
+                Text="{Binding Bingo.Title}"
+                VerticalAlignment="Center"
+                TextTrimming="CharacterEllipsis" />
+        </Grid>
+    </ContentPage.Header>
+
+    <NavigationPage.TopCommandBar>
+        <Border
+            Width="120"
+            BoxShadow="inset 0 0 4 #33000000"
+            CornerRadius="16"
+            BorderThickness="1"
+            BorderBrush="#66000000"
+            Background="White"
+            Padding="16 8">
+            <TextBlock
+                HorizontalAlignment="Center"
+                Foreground="#222"
+                DataContext="{Binding #GamePage.((vm:GameViewModel)DataContext)}"
+                VerticalAlignment="Center"
+                Text="{Binding GameTime, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+        </Border>
+    </NavigationPage.TopCommandBar>
+
+    <Border Padding="16">
+        <ScrollViewer>
+            <Border
+                Classes="BingoTable"
+                MaxWidth="720">
+                <ItemsControl ClipToBounds="False" IsVisible="{Binding Items.Count}" ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <controls:BingoPanel Size="{Binding Size}" Spacing="16" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Tapped="MarkItem_OnTapped"
+                                Classes="BingoCell">
+                                <DockPanel Margin="8">
+                                    <Grid>
+                                        <TextBlock
+                                            Margin="8"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Model.BingoItem.Text}" />
+
+                                        <Path
+                                            Margin="4"
+                                            Data="M 0,0 L 100,100 M 100,0 L 0,100"
+                                            Stretch="Fill"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Stroke="Red"
+                                            StrokeThickness="3"
+                                            IsHitTestVisible="False"
+                                            IsVisible="{Binding IsMarked}" />
+                                    </Grid>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Border>
-        </StackPanel>
+        </ScrollViewer>
     </Border>
 </ContentPage>

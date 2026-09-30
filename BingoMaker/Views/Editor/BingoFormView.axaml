@@ -65,16 +65,19 @@
                             Data="{StaticResource Plus}" />
                     </Button>
                 </DockPanel>
-                <Border MaxWidth="720" BorderBrush="Black" BorderThickness="1" Padding="8">
-                    <ItemsControl IsVisible="{Binding Items.Count}" ItemsSource="{Binding Items}">
+                <Border
+                    Classes="BingoTable" 
+                    MaxWidth="720">
+                    <ItemsControl ClipToBounds="False" IsVisible="{Binding Items.Count}" ItemsSource="{Binding Items}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <controls:BingoPanel Size="{Binding Size}" Spacing="8" />
+                                <controls:BingoPanel Size="{Binding Size}" Spacing="16" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border BorderThickness="1" BorderBrush="Black">
+                            <DataTemplate x:DataType="vm:BingoItemViewModel">
+                                <Border
+                                    Classes="BingoCell">
                                     <DockPanel Margin="8">
                                         <Button
                                             CornerRadius="8"
