@@ -80,15 +80,24 @@ public partial class BingoFormViewModel : ViewModelBase
         SaveCommand.NotifyCanExecuteChanged();
     }
     
-    public bool CanDeleteItem => Items.Count > 1;
+    public bool CanDeleteItem => Items.Count(i => !i.IsRemoving) > 1;
     
-    [RelayCommand(CanExecute = nameof(CanDeleteItem))]
-    public void RemoveItem(BingoItemViewModel item)
+    [RelayCommand(CanExecute = nameof(CanDeleteItem),
+        AllowConcurrentExecutions = true)]
+    public async Task RemoveItem(BingoItemViewModel item)
     {
-        if (!Items.Remove(item))
+        if (item.IsRemoving || !Items.Contains(item) || !CanDeleteItem)
             return;
         
-        item.PropertyChanged -= OnItemPropertyChanged;
+        item.IsRemoving = true;
+        
+        RemoveItemCommand.NotifyCanExecuteChanged();
+        SaveCommand.NotifyCanExecuteChanged();
+        
+        await Task.Delay(200);
+        
+        if(Items.Remove(item))
+            item.PropertyChanged -= OnItemPropertyChanged;
         
         Size = Math.Max(2, (int)Math.Ceiling(Math.Sqrt(Items.Count)));
         
@@ -99,7 +108,9 @@ public partial class BingoFormViewModel : ViewModelBase
     
     public bool CanSave => !String.IsNullOrWhiteSpace(Title) 
                            && Items.Count >= 1
-                           && Items.All(i => !String.IsNullOrWhiteSpace(i.Text));
+                           && Items.All(i =>
+                               !i.IsRemoving
+                               && !String.IsNullOrWhiteSpace(i.Text));
 
     [RelayCommand(CanExecute = nameof(CanSave))]
     public async Task Save()

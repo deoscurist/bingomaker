@@ -12,6 +12,9 @@ public partial class BingoItemViewModel : ViewModelBase
     
     [ObservableProperty]
     public partial string? ImageId { get; set; }
+    
+    [ObservableProperty]
+    public partial bool IsRemoving { get; set; }
 
     public BingoItemViewModel(BingoItem? item = null)
     {

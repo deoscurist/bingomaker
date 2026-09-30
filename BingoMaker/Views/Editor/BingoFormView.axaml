@@ -19,6 +19,39 @@
         <Color x:Key="FrutigerBarTextColor">White</Color>
     </ContentPage.Resources>
     
+    <ContentPage.Styles>
+        <Style Selector="Border.BingoCell:not(.removing)">
+            <Style.Animations>
+                <Animation Duration="0:0:0.2"
+                           IterationCount="1">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+
+        <Style Selector="Border.BingoCell.removing">
+            <Setter Property="IsHitTestVisible" Value="False" />
+
+            <Style.Animations>
+                <Animation Duration="0:0:0.2"
+                           IterationCount="1"
+                           FillMode="Forward">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="Opacity" Value="1" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="Opacity" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </ContentPage.Styles>
+    
     <NavigationPage.BottomCommandBar>
         <DockPanel 
             LastChildFill="False" 
@@ -77,6 +110,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:BingoItemViewModel">
                                 <Border
+                                    Classes.removing="{Binding IsRemoving}"
                                     Classes="BingoCell">
                                     <DockPanel Margin="8">
                                         <Button
