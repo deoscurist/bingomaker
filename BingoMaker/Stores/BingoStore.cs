@@ -34,12 +34,13 @@ public partial class BingoStore : ObservableObject, IBingoStore
         try
         {
             var bingos = _repository.GetAll()
-                .OrderByDescending(bingo => bingo.CreatedAt);
-            
+                .OrderByDescending(bingo => bingo.CreatedAt)
+                .ToList();
+
             _bingos.Clear();
-        
+
             foreach (var bingo in bingos)
-                _bingos.Insert(0, bingo);
+                _bingos.Add(bingo);
         }
         catch (Exception exception)
         {
@@ -86,6 +87,7 @@ public partial class BingoStore : ObservableObject, IBingoStore
             throw;
         }
         
+        BingoSaved?.Invoke(bingo);
         return true;
     }
 
@@ -116,6 +118,10 @@ public partial class BingoStore : ObservableObject, IBingoStore
             throw;
         }
         
+        BingoDeleted?.Invoke(bingo);
         return true;
     }
+    
+    public event Action<Bingo>? BingoSaved;
+    public event Action<Bingo>? BingoDeleted;
 }

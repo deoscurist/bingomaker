@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -14,4 +15,7 @@ public interface IBingoStore : INotifyPropertyChanged
     Task LoadAsync();
     Task<bool> SaveAsync(Bingo bingo);
     Task<bool> DeleteAsync(Bingo bingo);
+    
+    public event Action<Bingo>? BingoSaved;
+    public event Action<Bingo>? BingoDeleted;
 }

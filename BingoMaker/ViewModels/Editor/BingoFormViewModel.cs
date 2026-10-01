@@ -131,9 +131,8 @@ public partial class BingoFormViewModel : ViewModelBase
             
             return;
         }
-        
-        await _router.PushAsync<BingoListViewModel>();
-        _router.ClearHistory(2);
+
+        await _router.PopAsync();
     }
     
     [RelayCommand]
@@ -147,8 +146,7 @@ public partial class BingoFormViewModel : ViewModelBase
                 )
             {
                 await _bingoStore.DeleteAsync(_bingo);
-                await _router.PushAsync<BingoListViewModel>();
-                _router.ClearHistory(2);
+                await _router.PopAsync();
             }
         }
         catch (Exception exception)

@@ -39,8 +39,9 @@ public partial class BingoListViewModel : ViewModelBase
             bingo => new BingoCardViewModel(bingo)));
         
         Bingos = new(_bingos);
-        
-        _bingoStore.PropertyChanged += (_, _) => IsLoaded = _bingoStore.IsLoaded;
+
+        _bingoStore.BingoSaved += OnBingoSaved;
+        _bingoStore.BingoDeleted += OnBingoDeleted;
     }
 
     [RelayCommand]
@@ -82,4 +83,24 @@ public partial class BingoListViewModel : ViewModelBase
     public Task BingoForm(Bingo? bingo) => bingo is null
         ? _router.PushAsync<BingoFormViewModel>()
         : _router.PushAsync<BingoFormViewModel>(bingo);
+    
+    private void OnBingoSaved(Bingo bingo)
+    {
+        var card = _bingos.FirstOrDefault(
+            item => item.Bingo.Id == bingo.Id);
+
+        if (card is null)
+            _bingos.Insert(0, new BingoCardViewModel(bingo));
+        else
+            card.Bingo = bingo;
+    }
+
+    private void OnBingoDeleted(Bingo bingo)
+    {
+        var card = _bingos.FirstOrDefault(
+            item => item.Bingo.Id == bingo.Id);
+
+        if (card is not null)
+            _bingos.Remove(card);
+    }
 }

@@ -26,4 +26,7 @@ public class DesignBingoStore : ObservableObject, IBingoStore
 
     public Task<bool> DeleteAsync(Bingo bingo)
         => throw new NotSupportedException();
+    
+    public event Action<Bingo>? BingoSaved;
+    public event Action<Bingo>? BingoDeleted;
 }

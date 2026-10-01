@@ -6,10 +6,20 @@ namespace BingoMaker.ViewModels.Editor;
 
 public partial class BingoCardViewModel : ViewModelBase
 {
-    public Bingo Bingo { get; }
+    private Bingo _bingo;
+
+    public Bingo Bingo
+    {
+        get => _bingo;
+        internal set
+        {
+            _bingo = value;
+            OnPropertyChanged(nameof(Bingo));
+        }
+    }
 
     public BingoCardViewModel(Bingo bingo)
     {
-        Bingo = bingo;
+        _bingo = bingo;
     }
 }
