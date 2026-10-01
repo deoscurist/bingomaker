@@ -1,0 +1,73 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:BingoMaker.ViewModels.Game"
+             xmlns:controls="using:BingoMaker.Controls"
+             Header="{Binding Title}"
+             xmlns:design="using:BingoMaker.Design"
+             mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="800"
+             x:DataType="vm:GameShowViewModel"
+             x:Name="GameShowPage"
+             x:Class="BingoMaker.Views.Game.GameShowView">
+    <ContentPage.Resources>
+        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandMint" />
+        <Color x:Key="FrutigerBarTextColor">White</Color>
+    </ContentPage.Resources>
+    
+    <NavigationPage.BottomCommandBar>
+        <DockPanel 
+            LastChildFill="False" 
+            HorizontalAlignment="Stretch">
+            <Button
+                DockPanel.Dock="Left"
+                Command="{Binding #GameShowPage.((vm:GameShowViewModel)DataContext).DeleteCommand}"
+                Background="{DynamicResource NotificationError}">
+                Delete
+            </Button>
+        </DockPanel>
+    </NavigationPage.BottomCommandBar>
+    
+    <Border Padding="16">
+        <ScrollViewer>
+            <Border
+                Classes="BingoTable"
+                MaxWidth="720">
+                <ItemsControl ClipToBounds="False" IsVisible="{Binding Items.Count}" ItemsSource="{Binding Items}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <controls:BingoPanel Size="{Binding Size}" Spacing="16" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Classes="BingoCell">
+                                <DockPanel Margin="8">
+                                    <Grid>
+                                        <TextBlock
+                                            Margin="8"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Model.BingoItem.Text}" />
+
+                                        <Path
+                                            Margin="4"
+                                            Data="M 0,0 L 100,100 M 100,0 L 0,100"
+                                            Stretch="Fill"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Stretch"
+                                            Stroke="Red"
+                                            StrokeThickness="3"
+                                            IsHitTestVisible="False"
+                                            IsVisible="{Binding IsMarked}" />
+                                    </Grid>
+                                </DockPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Border>
+        </ScrollViewer>
+    </Border>
+</ContentPage>

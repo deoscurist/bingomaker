@@ -9,6 +9,7 @@ using BingoMaker.Design.Services;
 using BingoMaker.Design.Stores;
 using BingoMaker.Models;
 using BingoMaker.Services;
+using BingoMaker.Stores;
 using BingoMaker.ViewModels;
 using BingoMaker.ViewModels.Editor;
 using BingoMaker.ViewModels.Game;
@@ -172,6 +173,7 @@ internal static class DesignData
 
     public static IGameRepository GameRepository { get; } = new DesignGameRepository(Games);
     public static IBingoRepository BingoRepository { get; } = new DesignBingoRepository(Bingos);
+    public static IGameStatsStore GameStatsStore { get; } = new DesignGameStats(Games);
 
     public static DesignBingoStore BingoStore { get; } = new(Bingos);
     public static DesignGameStore GameStore { get; } = new();
@@ -186,7 +188,7 @@ internal static class DesignData
     
     public static StartupViewModel Startup { get; } = new(DesignRouter);
     public static GameSetupViewModel GameSetup { get; } = new(DesignRouter, BingoRepository, GameRepository, DesignDialog);
-    public static GameStatsViewModel GameStats { get; } = new(DesignRouter, DesignDialog, GameRepository, Bingos[0]);
+    public static GameStatsViewModel GameStats { get; } = new(DesignRouter, DesignDialog, GameStatsStore, Bingos[0]);
     public static GameStatCardViewModel GameStatCard { get; } = new(Games[0]);
     public static GameViewModel Game { get; } = new(DesignRouter, GameStore, Bingos[0]);
     public static BingoListViewModel BingoList { get; } = new(DesignRouter, BingoStore, DesignDialog);

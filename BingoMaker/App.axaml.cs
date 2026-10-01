@@ -37,6 +37,7 @@ public partial class App : Application
 
             services.AddSingleton<IBingoStore, BingoStore>();
             services.AddSingleton<IGameStore, GameStore>();
+            services.AddSingleton<IGameStatsStore, GameStatsStore>();
             
             services.AddSingleton<TrayViewModel>();
             

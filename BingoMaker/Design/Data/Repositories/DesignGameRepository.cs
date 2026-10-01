@@ -16,7 +16,7 @@ public class DesignGameRepository : IGameRepository
     
     public IReadOnlyList<Game> GetAll() => Games;
 
-    public IReadOnlyCollection<Game> GetAllByBingoId() => Games;
+    public IReadOnlyCollection<Game> GetAllByBingoId(Guid bingoId) => Games;
 
     public Game? GetById(Guid id) => Games[1];
 
