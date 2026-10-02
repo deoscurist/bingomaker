@@ -33,15 +33,13 @@ public partial class BingoListViewModel : ViewModelBase
         _bingoStore = bingoStore;
         _dialogService = dialogService;
         
-        _ = LoadBingos();
+        _bingos = new ObservableCollection<BingoCardViewModel>();
+        Bingos = new ReadOnlyObservableCollection<BingoCardViewModel>(_bingos);
         
-        _bingos = new(_bingoStore.Bingos.Select(
-            bingo => new BingoCardViewModel(bingo)));
-        
-        Bingos = new(_bingos);
-
         _bingoStore.BingoSaved += OnBingoSaved;
         _bingoStore.BingoDeleted += OnBingoDeleted;
+
+        _ = LoadBingos();
     }
 
     [RelayCommand]
@@ -50,6 +48,13 @@ public partial class BingoListViewModel : ViewModelBase
         try
         {
             await _bingoStore.LoadAsync();
+            
+            _bingos.Clear();
+            
+            foreach (var bingo in _bingoStore.Bingos)
+                _bingos.Add(new BingoCardViewModel(bingo));
+
+            IsLoaded = true;
         }
         catch (Exception e)
         {

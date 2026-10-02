@@ -33,9 +33,9 @@ public partial class BingoStore : ObservableObject, IBingoStore
         
         try
         {
-            var bingos = _repository.GetAll()
+            var bingos = await Task.Run(() => _repository.GetAll()
                 .OrderByDescending(bingo => bingo.CreatedAt)
-                .ToList();
+                .ToList());
 
             _bingos.Clear();
 
