@@ -19,13 +19,24 @@ public static class NavigationBarConverters
         new(page => new SolidColorBrush(
             Read(page, "Top", "Color", Color.Parse("#AAB4B9"))));
 
+    public static readonly FuncValueConverter<Page?, IBrush> SolidTopBackground =
+        new(page => SolidBackground(page, "Top"));
+    public static readonly FuncValueConverter<Page?, IBrush> SolidBottomBackground =
+        new(page => SolidBackground(page, "Bottom"));
+
+    private static IBrush SolidBackground(Page? page, string bar)
+    {
+        var color = Read(page, bar, "Color", Color.Parse("#E1E6E9"));
+        return new SolidColorBrush(Color.FromRgb(color.R, color.G, color.B));
+    }
+
     private static Color Read(Page? page, string bar, string suffix, Color fallback)
     {
-        foreach (var key in new[] { $"Frutiger{bar}Bar{suffix}", $"FrutigerBar{suffix}" })
+        foreach (var key in new[] { $"{bar}NavigationBar{suffix}", $"NavigationBar{suffix}" })
             if (page is not null && page.Resources.TryGetResource(key, page.ActualThemeVariant, out var local)
                 && local is Color localColor)
                 return localColor;
-        foreach (var key in new[] { $"Frutiger{bar}Bar{suffix}", $"FrutigerBar{suffix}" })
+        foreach (var key in new[] { $"{bar}NavigationBar{suffix}", $"NavigationBar{suffix}" })
             if (page is not null && page.TryFindResource(key, out var resource) && resource is Color color)
                 return color;
         return fallback;

@@ -14,8 +14,8 @@
              x:DataType="vm:GameSetupViewModel"
              x:Class="BingoMaker.Views.Game.GameSetupView">
     <ContentPage.Resources>
-        <StaticResource x:Key="FrutigerBarColor" ResourceKey="NotificationSuccess"/>
-        <Color x:Key="FrutigerBarTextColor">White</Color>
+        <StaticResource x:Key="NavigationBarColor" ResourceKey="NotificationSuccess"/>
+        <Color x:Key="NavigationBarTextColor">White</Color>
     </ContentPage.Resources>
     
     <ScrollViewer>

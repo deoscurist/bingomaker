@@ -26,6 +26,10 @@
 
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="avares://BingoMaker/Assets/Frutiger.axaml"/>
+        <StyleInclude Source="avares://BingoMaker/Assets/Styles/Common.axaml" />
+        <StyleInclude Source="avares://BingoMaker/Views/Templates/NavigationPage.axaml" />
+        <StyleInclude Source="avares://BingoMaker/Views/Templates/ContentPage.axaml" />
+        <StyleInclude Source="avares://BingoMaker/Assets/Themes/Default.axaml" />
+        <!-- <StyleInclude Source="avares://BingoMaker/Assets/Themes/Frutiger.axaml" /> -->
     </Application.Styles>
 </Application>

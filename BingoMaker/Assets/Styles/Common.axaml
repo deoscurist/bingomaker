@@ -1,0 +1,40 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <SolidColorBrush x:Key="BrandRedBrush" Color="#FF4D4D" />
+        <SolidColorBrush x:Key="BrandOrangeBrush" Color="#FFA538" />
+        <SolidColorBrush x:Key="BrandGreenBrush" Color="#7ED321" />
+        <SolidColorBrush x:Key="BrandMintBrush" Color="#1FD9A8" />
+
+        <SolidColorBrush x:Key="NotificationInfoBrush" Color="#1AADED" />
+        <SolidColorBrush x:Key="NotificationSuccessBrush" Color="#55CC63" />
+        <SolidColorBrush x:Key="NotificationWarningBrush" Color="#FFD34D" />
+        <SolidColorBrush x:Key="NotificationErrorBrush" Color="#EF3545" />
+
+        <Color x:Key="BrandRed">#FF4D4D</Color>
+        <Color x:Key="BrandOrange">#FFA538</Color>
+        <Color x:Key="BrandGreen">#7ED321</Color>
+        <Color x:Key="BrandMint">#1FD9A8</Color>
+
+        <Color x:Key="NotificationInfo">#1AADED</Color>
+        <Color x:Key="NotificationSuccess">#55CC63</Color>
+        <Color x:Key="NotificationWarning">#FFD34D</Color>
+        <Color x:Key="NotificationError">#EF3545</Color>
+        <Color x:Key="NotificationText">White</Color>
+        <Color x:Key="NavigationBarColor">#E1E6E9</Color>
+        <Color x:Key="NavigationBarTextColor">#253746</Color>
+    </Styles.Resources>
+
+    <Style Selector="ContentPage.flat">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style Selector="Button">
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Button:disabled">
+        <Setter Property="Cursor" Value="Arrow" />
+    </Style>
+</Styles>

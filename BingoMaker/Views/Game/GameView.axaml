@@ -13,8 +13,8 @@
              x:DataType="vm:GameViewModel"
              x:Class="BingoMaker.Views.Game.GameView">
     <ContentPage.Resources>
-        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandMint" />
-        <Color x:Key="FrutigerBarTextColor">White</Color>
+        <StaticResource x:Key="NavigationBarColor" ResourceKey="BrandMint" />
+        <Color x:Key="NavigationBarTextColor">White</Color>
     </ContentPage.Resources>
 
     <ContentPage.Header>

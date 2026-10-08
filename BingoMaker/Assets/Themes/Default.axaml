@@ -1,0 +1,185 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="using:BingoMaker.Converters">
+    <Styles.Resources>
+        <SolidColorBrush x:Key="DefaultPageSurface" Color="#D0D6D9" />
+        <SolidColorBrush x:Key="DefaultCardSurface" Color="#D4D4D4" />
+        <SolidColorBrush x:Key="DefaultButtonSurface" Color="#E3E8EB" />
+        <SolidColorBrush x:Key="DefaultSurfaceBorder" Color="#A6ABAD" />
+        <SolidColorBrush x:Key="DefaultText" Color="#253746" />
+    </Styles.Resources>
+    
+    <Style Selector="Grid.App">
+        <Setter Property="Background">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#FFF1D6" Offset="0" />
+                <GradientStop Color="#F5C8B8" Offset="1" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+
+    <Style Selector="NavigationPage">
+        <Setter Property="Background" Value="{DynamicResource DefaultPageSurface}" />
+        <Setter Property="CornerRadius" Value="16" />
+    </Style>
+
+    <Style Selector="ContentPage:not(.flat)">
+        <Setter Property="Background" Value="{DynamicResource DefaultPageSurface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ Grid#PART_ContentHost">
+        <Setter Property="Margin" Value="16,0,16,16" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ Border#PART_NavigationBar">
+        <Setter Property="MaxWidth" Value="768" />
+        <Setter Property="Margin" Value="16" />
+        <Setter Property="Padding" Value="16,0" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Background" Value="{ReflectionBinding TemplatedParent.CurrentPage, RelativeSource={RelativeSource Self}, Converter={x:Static converters:NavigationBarConverters.SolidTopBackground}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ ContentPresenter#PART_Header">
+        <Setter Property="FontWeight" Value="600" />
+        <Setter Property="Padding" Value="16 0" />
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ ContentPresenter#PART_TopCommandBar">
+        <Setter Property="Padding" Value="16 0" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ Border#BottomCommandBarSurface">
+        <Setter Property="MaxWidth" Value="768" />
+        <Setter Property="Margin" Value="16,0,16,16" />
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Background" Value="{ReflectionBinding TemplatedParent.CurrentPage, RelativeSource={RelativeSource Self}, Converter={x:Static converters:NavigationBarConverters.SolidBottomBackground}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Label">
+        <Setter Property="FontWeight" Value="600" />
+    </Style>
+
+    <Style Selector="Button">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="20,8" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Background" Value="{DynamicResource DefaultButtonSurface}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Effect" Value="{x:Null}" />
+    </Style>
+
+    <Style Selector="TextBox">
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="Padding" Value="12,9" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="{DynamicResource DefaultText}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource DefaultText}" />
+        <Setter Property="SelectionBrush" Value="#A9DCF5" />
+        <Setter Property="SelectionForegroundBrush" Value="#172D3B" />
+        <Setter Property="PlaceholderForeground" Value="#617482" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Border.ListCard">
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Margin" Value="4" />
+        <Setter Property="Background" Value="{DynamicResource DefaultCardSurface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Border.ListCard TextBlock.Title">
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{DynamicResource DefaultText}" />
+    </Style>
+
+    <Style Selector="Border.ListCard Border.CardContent Border.CardContentInner">
+        <Setter Property="Padding" Value="8 16" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Border.BingoTable">
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="Background" Value="#EEEEEE" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="Border.BingoTable Border.BingoCell">
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Background" Value="{DynamicResource DefaultPageSurface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource DefaultSurfaceBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ Button#PART_BackButton">
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Margin" Value="16 0" />
+        <Setter Property="Background" Value="{ReflectionBinding TemplatedParent.CurrentPage, RelativeSource={RelativeSource Self}, Converter={x:Static converters:NavigationBarConverters.SolidTopBackground}}" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ ContentPresenter#PART_Header, NavigationPage /template/ ContentPresenter#PART_TopCommandBar">
+        <Setter Property="Foreground" Value="{ReflectionBinding TemplatedParent.CurrentPage, RelativeSource={RelativeSource Self}, Converter={x:Static converters:NavigationBarConverters.TopForeground}}" />
+    </Style>
+
+    <Style Selector="NavigationPage /template/ ContentPresenter#PART_BottomCommandBar">
+        <Setter Property="Foreground" Value="{ReflectionBinding TemplatedParent.CurrentPage, RelativeSource={RelativeSource Self}, Converter={x:Static converters:NavigationBarConverters.BottomForeground}}" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter, Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{ReflectionBinding TemplatedParent.Background, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Foreground" Value="{ReflectionBinding TemplatedParent.Foreground, RelativeSource={RelativeSource Self}}" />
+    </Style>
+
+    <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderBrush" Value="#617482" />
+    </Style>
+
+    <Style Selector="Button:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="BorderBrush" Value="#253746" />
+    </Style>
+
+    <Style Selector="Button:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#E3E7EA" />
+        <Setter Property="Foreground" Value="#687681" />
+        <Setter Property="BorderBrush" Value="#B5BEC5" />
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement, TextBox:focus /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="{ReflectionBinding TemplatedParent.Background, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="BorderBrush" Value="#238BC4" />
+    </Style>
+
+    <Style Selector="TextBox:error /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource NotificationErrorBrush}" />
+    </Style>
+
+    <Style Selector="TextBox:disabled /template/ Border#PART_BorderElement">
+        <Setter Property="Background" Value="#E3E7EA" />
+        <Setter Property="BorderBrush" Value="#B5BEC5" />
+    </Style>
+</Styles>

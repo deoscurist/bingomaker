@@ -15,8 +15,8 @@
              x:Name="BingoFormPage"
              x:DataType="vm:BingoFormViewModel">
     <ContentPage.Resources>
-        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandOrange"/>
-        <Color x:Key="FrutigerBarTextColor">White</Color>
+        <StaticResource x:Key="NavigationBarColor" ResourceKey="BrandOrange"/>
+        <Color x:Key="NavigationBarTextColor">White</Color>
     </ContentPage.Resources>
     
     <ContentPage.Styles>

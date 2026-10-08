@@ -11,8 +11,8 @@
              x:Name="GameShowPage"
              x:Class="BingoMaker.Views.Game.GameShowView">
     <ContentPage.Resources>
-        <StaticResource x:Key="FrutigerBarColor" ResourceKey="BrandMint" />
-        <Color x:Key="FrutigerBarTextColor">White</Color>
+        <StaticResource x:Key="NavigationBarColor" ResourceKey="NotificationSuccess"/>
+        <Color x:Key="NavigationBarTextColor">White</Color>
     </ContentPage.Resources>
     
     <NavigationPage.BottomCommandBar>

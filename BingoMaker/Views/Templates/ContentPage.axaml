@@ -1,0 +1,35 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="ContentPage">
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel ClipToBounds="False">
+                    <!-- Содержимым и видимостью этих частей управляет ContentPage. -->
+                    <ContentPresenter x:Name="PART_TopCommandBar"
+                                      DockPanel.Dock="Top"
+                                      HorizontalContentAlignment="Stretch"
+                                      IsVisible="False" />
+                    <ContentPresenter x:Name="PART_BottomCommandBar"
+                                      DockPanel.Dock="Bottom"
+                                      HorizontalContentAlignment="Stretch"
+                                      IsVisible="False" />
+                    <Border x:Name="PageSurface"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            ClipToBounds="False">
+                        <Border CornerRadius="{TemplateBinding CornerRadius}" ClipToBounds="True">
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
+                    </Border>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>
