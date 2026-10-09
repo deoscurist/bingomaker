@@ -18,9 +18,10 @@ case "$ARCH" in
 esac
 
 VERSION="${2:-}"
+VERSION_PATTERN='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(alpha|beta|rc)\.(0|[1-9][0-9]*))?$'
 
-if ! [[ "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
-    echo "Expected release version as second argument: MAJOR.MINOR.PATCH" >&2
+if ! [[ "$VERSION" =~ $VERSION_PATTERN ]]; then
+    echo "Expected version: MAJOR.MINOR.PATCH[-alpha.N|-beta.N|-rc.N]" >&2
     exit 1
 fi
 

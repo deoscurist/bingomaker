@@ -19,11 +19,14 @@ case "$ARCH" in
 esac
 
 VERSION="${2:-}"
+VERSION_PATTERN='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(alpha|beta|rc)\.(0|[1-9][0-9]*))?$'
 
-if ! [[ "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
-    echo "Expected release version as second argument: MAJOR.MINOR.PATCH" >&2
+if ! [[ "$VERSION" =~ $VERSION_PATTERN ]]; then
+    echo "Expected version: MAJOR.MINOR.PATCH[-alpha.N|-beta.N|-rc.N]" >&2
     exit 1
 fi
+
+BUNDLE_VERSION="${VERSION%%-*}"
 
 if [ ! -f "$PROJECT_FILE" ]; then
     echo "Project not found: $PROJECT_FILE" >&2
@@ -79,9 +82,9 @@ cat > "$APP_DIR/Contents/Info.plist" <<EOF
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleShortVersionString</key>
-    <string>$VERSION</string>
+    <string>$BUNDLE_VERSION</string>
     <key>CFBundleVersion</key>
-    <string>$VERSION</string>
+    <string>$BUNDLE_VERSION</string>
     <key>CFBundleSupportedPlatforms</key>
     <array>
         <string>MacOSX</string>
