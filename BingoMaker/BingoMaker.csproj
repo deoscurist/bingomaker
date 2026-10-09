@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <MinVerTagPrefix>v</MinVerTagPrefix>
+        <ApplicationIcon>../build/icons/windows/BingoMaker.ico</ApplicationIcon>
         <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     </PropertyGroup>
 
